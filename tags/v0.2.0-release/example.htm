@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>Translation Example</title>
+
+<!-- these lines of HTML must be included within the <head> tags of all pages using the script: -->
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript" src="translate.js"></script>
+
+</head>
+
+<body>
+
+<!-- include the following HTML at the location on the page you wish to show a listbox, so the user can change language: -->
+<div id="languagelist"></div>
+
+<hr />
+
+<!-- the navigation menu uses the site's Base Language [English] -->
+<ul id="navigation">
+<li><a href="example.htm">Welcome</a></li>
+<li><a href="example.htm">About</a></li>
+<li><a href="example.htm">Links</a></li>
+</ul>
+
+<hr />
+
+<!-- the left sidebar's language (i.e. English in this case) should automatically be detected during translation -->
+<div id="left_sidebar" style="color: maroon"><p>Place all content for the Left Sidebar here</p></div>
+
+<hr />
+
+<!-- the right sidebar's language is written in French [translation: "Place the entire contents of the right bar here"] - 
+also display the source language below the text after translation -->
+<div id="right_sidebar" style="color: green"><p>Placer l'ensemble du contenu de la barre de droite ici</p></div>
+
+<hr />
+
+<div class="entry_baselang" style="color: gray"><p>This entry is written in the site's Base Language</p></div>
+
+<hr />
+
+<!-- [translation: "This entry is in French..."]: -->
+<div class="entry_french" style="color: purple"><p>Cette inscription se fait en fran&ccedil;ais...</p></div>
+
+<hr />
+
+<!-- note: the detected source language will be displayed below each of these entries after translation 
+(if different from current site language): -->
+
+<!-- [translation: "The language of this entry will be automatically detected"]: -->
+<div class="entry" style="color: blue"><p>La langue de cette entr&eacute;e sera automatiquement d&eacute;tect&eacute;</p></div>
+<hr style="width: 25%; text-align: left; margin-left: 0;" />
+
+<div class="entry" style="color: blue"><p>This entry has the same HTML class as the previous element, but is written in a completely different language. It will therefore be translated separately, with the language auto-detected as before...</p></div>
+<hr style="width: 25%; text-align: left; margin-left: 0;" />
+
+<!-- [translation: "This entry is written in yet another language (and uses the same class) that is automatically detected..."]: -->
+<div class="entry" style="color: blue"><p>Dieser Eintrag ist noch in einer anderen Sprache geschrieben (und benutzt das gleiche Klasse) die automatisch erkannt wird...</p></div>
+<hr />
+
+<!-- this page doesn't have a footer or quotes (though both are included within the script as elements to translate) - so ignore them during translation [note: if quotes WERE present on the page, they'd be all translated from German, and this fact would be displayed below each quote] -->
+
+</body>
+</html>
