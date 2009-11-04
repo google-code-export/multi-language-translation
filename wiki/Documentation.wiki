@@ -1,8 +1,12 @@
 #summary Provides full documentation on how to use the script and deploy it on your website - including examples, further information, and Frequently Asked Questions...
 #labels Featured,Implementation,Deployment,Support
 
-=Introduction=
+=Multi-Language Translation Script - Documentation=
+
+==Introduction==
 
 The Multi-Language Translation script automatically translates a webpage (containing text in more than one language) into any single language requested by the user. This can be particularly useful for sites involving a lot of user-generated content (which might have originally been written by a number of users who speak different native languages) - e.g. blogs, forums, or other community sites. The script harnesses the [http://code.google.com/intl/en/apis/ajaxlanguage/ Google AJAX Language API] to perform translation and language detection.
 
 This page provides full instructions on how to use the script and deploy it on your website, providing examples where necessary. It also attempts to answer any additional questions you may have, as well as to outline ways you can support the project if you wish to do so. All feedback - both on this documentation and on the script itself - would be much appreciated.
+
+==Deployment and Usage Instructions==
