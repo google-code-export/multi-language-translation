@@ -13,12 +13,16 @@ This page provides full instructions on how to use the script and deploy it on y
 
 This section explains how to deploy the script on your website.
 
- # Firstly, you need to include the following 2 HTML lines within the <head> tags of all webpages that use the script:
+1. Firstly, you need to include the following 2 HTML lines within the {{{<head>}}} tags of all webpages that use the script:
 
-{{
+{{{
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript" src="translate.js"></script>
-}}
+}}}
+
+If you use a Content Management System to maintain your site (either a generic one such as [http://www.drupal.org Drupal], or a bespoke one), you will probably only have to do this once in a header file. If your site is made up of static HTML pages however, you will need to repeat this step for all pages you wish the translation functionality to work on.
+
+Please ensure that if you intend to upload the script to a different folder from where your webpages are located, you update the {{{src}}} value to the location of your script (e.g {{{src="scripts/translate.js"}}} or {{{src="http://www.example.com/scripts/translate.js"}}})
 
 2. Include the following HTML code somewhere on every page using the script:
 
