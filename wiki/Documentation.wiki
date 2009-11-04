@@ -50,13 +50,20 @@ Directly below the listbox containing the languages, a _Powered By Google_ attri
 
 ===Step 3:===
 
-3. Open the file _translate.js_. You need to make some configurations to the top of this script to allow it to work with your website.
+Open the file _translate.js_. You need to make some configurations to the top of this script file to enable it to work with your website:
 
-4. Upload the file 'translate.js' (as well as any changes made to any webpages in your site) to your server. Your work is complete!
+====Step 3(a):====
 
+Specify the _Base Language_ for your website. This is the language the site was originally written in, and is normally the language used for all regions which appear on every page and do not change throughout the site - e.g. navigational elements such as links to other parts of the website. The base language should be entered in the form of a 2 character language code - you can view a [http://code.google.com/intl/en/apis/ajaxlanguage/documentation/reference.html#LangNameArray Complete List of Available Language Codes] here (note that you do also need to check if [http://code.google.com/intl/en/apis/ajaxlanguage/documentation/#SupportedPairs translation is supported] from the applicable language).
 
-The attached file 'example.htm' provides a very simple working example of the script in action.
-Please ensure that you have extracted both 'example.htm' and 'translate.js' from the archive 
-into a new folder before opening the example. View the source of 'example.htm' to see comments 
-describing how the script interacts with the page. For further examples and much more detailed 
-usage instructions, please check the full documentation.
+For example, if the base language is English, you should configure the script to read as follows:  
+
+{{{
+var GL_baseLang = "en";
+}}}
+
+====Step 3(b):====
+
+4. Upload the file _translate.js_ (as well as any changes made to any webpages in your site) to your server. Your work is complete!
+
+The attached file _example.htm_ provides a very simple working example of the script in action. Please ensure that you have extracted both _example.htm_ and _translate.js_ from the archive into a new folder before opening the example. View the source of _example.htm_ to see comments describing how the script interacts with the page. For further examples and much more detailed usage instructions, please check the full documentation.
