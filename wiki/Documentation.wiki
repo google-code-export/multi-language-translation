@@ -10,3 +10,32 @@ The Multi-Language Translation script automatically translates a webpage (contai
 This page provides full instructions on how to use the script and deploy it on your website, providing examples where necessary. It also attempts to answer any additional questions you may have, as well as to outline ways you can support the project if you wish to do so. All feedback - both on this documentation and on the script itself - would be much appreciated.
 
 ==Deployment and Usage Instructions==
+
+This section explains how to deploy the script on your website.
+
+ # Firstly, you need to include the following 2 HTML lines within the <head> tags of all webpages that use the script:
+
+{{
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript" src="translate.js"></script>
+}}
+
+2. Include the following HTML code somewhere on every page using the script:
+
+<div id="languagelist"></div>
+
+At this location of each page, a listbox will appear, allowing the user to change languages...
+
+3. Open the file 'translate.js', and make the necessary configurations to the top of the script. 
+The required changes are outlined within that file; and complete instructions/examples are shown 
+in the full documentation [see the link above].
+
+4. Upload the file 'translate.js' (as well as any changes made to any webpages in your site) to 
+your server. Your work is complete!
+
+
+The attached file 'example.htm' provides a very simple working example of the script in action.
+Please ensure that you have extracted both 'example.htm' and 'translate.js' from the archive 
+into a new folder before opening the example. View the source of 'example.htm' to see comments 
+describing how the script interacts with the page. For further examples and much more detailed 
+usage instructions, please check the full documentation.
