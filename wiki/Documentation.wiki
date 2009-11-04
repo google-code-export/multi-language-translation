@@ -11,7 +11,7 @@ This page provides full instructions on how to use the script and deploy it on y
 
 ==Deployment and Usage Instructions==
 
-This section explains how to deploy the script on your website.
+This section explains how to deploy the script on your website. Before following these instructions, please first [http://code.google.com/p/multi-language-translation/downloads/list download] the latest script release, and extract all files from the archive into a new folder on your computer.
 
 ===Step 1:===
  
@@ -46,11 +46,11 @@ Note: if the user has !JavaScript disabled, the listbox will not appear (which d
 
 This message will not be shown unless !JavaScript is disabled or not supported by the user's browser...
 
-Directly below the listbox containing the languages, a _Powered By Google_ message will be shown. This is a requirement of the [http://code.google.com/intl/en/apis/ajaxlanguage/terms.html Google AJAX Language API Terms of Use].
+Directly below the listbox containing the languages, a _Powered By Google_ attribution message will be shown. This is a requirement of the [http://code.google.com/intl/en/apis/ajaxlanguage/terms.html Google AJAX Language API Terms of Use].
 
 ===Step 3:===
 
-3. Open the file 'translate.js', and make the necessary configurations to the top of the script.
+3. Open the file _translate.js_. You need to make some configurations to the top of this script to allow it to work with your website.
 
 4. Upload the file 'translate.js' (as well as any changes made to any webpages in your site) to your server. Your work is complete!
 
