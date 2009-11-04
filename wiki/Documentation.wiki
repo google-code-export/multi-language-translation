@@ -3,6 +3,10 @@
 
 =Multi-Language Translation Script - Documentation=
 
+==Contents==
+
+<wiki:toc max_depth="2" />
+
 ==Introduction==
 
 The Multi-Language Translation script automatically translates a web-page (containing text in more than one language) into any single language requested by the user. This can be particularly useful for sites involving a lot of user-generated content (which might have originally been written by a number of users who speak different native languages) - e.g. blogs, forums, or other community sites. The script harnesses the [http://code.google.com/intl/en/apis/ajaxlanguage/ Google AJAX Language API] to perform translation and language detection.
@@ -64,6 +68,86 @@ var GL_baseLang = "en";
 
 ====Step 3(b):====
 
-4. Upload the file _translate.js_ (as well as any changes made to any webpages in your site) to your server. Your work is complete!
+A typical modern website is divided into a number of regions - e.g. a top banner, sidebar(s), a content area (which is usually divided into further regions - such as individual blog post entries), and a footer. These regions are usually enclosed by {{{<div>}}} _html elements/tags_ - or alternatively by {{{<h1>}}},{{{<ul>}}},{{{<p>}}} elements etc. Specific elements on a page can be identified through the usage of element _IDs_ or _Class Names_ - e.g. {{{<div class="region1">}}}. *It is important to remember that an ID can only be used to identify one single element on any one webpage - if an element is intended to appear multiple times on a page (e.g. to surround blog post entries), you should use Class Names instead*!
 
-The attached file _example.htm_ provides a very simple working example of the script in action. Please ensure that you have extracted both _example.htm_ and _translate.js_ from the archive into a new folder before opening the example. View the source of _example.htm_ to see comments describing how the script interacts with the page. For further examples and much more detailed usage instructions, please check the full documentation.
+For the script to work correctly, you need to specify all regions you wish to have translated for each page in your site [Why do I need to do this?]. This is achieved by identifying the IDs and Class Names of all elements that enclose these regions. Please note that if any regions are *not* enclosed by an element which can be identified by a Class Name or an ID, you would unfortunately have to modify your theme / site code to support this - this should not be needed in a lot of cases however, and any changes that _are_ required should be very minor.
+
+Firstly, all applicable element IDs must be specified. If you have some existing knowledge of !JavaScript, you will see that this is achieved by storing them in an Array, made up of a number of sub-Arrays (do not worry if you do not understand this though - simply follow the instructions below).
+
+*i)* If an element encloses content that is written in the _Base Language_ of the site, you need to specify the element by using the following format (_exactly as shown_):
+
+{{{
+	["elementID"],
+}}}
+
+... where _elementID_ is the ID of the element enclosing the relevant region.
+
+*ii)* If an element encloses content written in a *known* language which is *different* from the base language, specify the element using the following format:
+
+{{{
+	["elementID", "fr"],
+}}}
+
+... where _fr_ is the [http://code.google.com/intl/en/apis/ajaxlanguage/documentation/reference.html#LangNameArray language code] for the source language the contents are written in.
+
+*iii)* If the element encloses content written in an *unknown* language (which therefore needs to be detected automatically when the script runs), use the format:
+
+{{{
+	["elementID", ""],
+}}}
+
+*iv)* The script can also optionally append some text to the bottom of a specified element which indicates the source language of the enclosed region. If you wish to enable this for an element, use the format:
+
+{{{
+	["elementID", "fr", true],
+}}}
+
+... this will add the line 
+
+_Automatic translation from French: Powered By Google_ 
+
+to the bottom of the relevant content. Note that this option _will_ work if a source language is manually specified, _or_ if it has been detected automatically - but _*not*_ if the Base Language format above was used (you can get around this limitation by manually specifying the Base Language as the Source Language (i.e. use {{{["elementID", "en", true],}}} instead of {{{["elementID", true],}}} assuming English is the Base Language).).
+
+*Putting it All Together:* A full example is shown below of the correct syntax to use when specifying the IDs of elements enclosing regions to be translated:
+
+{{{
+var GL_classIds = [
+	["navigation"],
+	["left_sidebar", ""],
+	["right_sidebar", "fr", true],
+	["footer"],
+];
+}}}
+
+This will translate the regions enclosed by the 4 elements identified with the IDs shown above. The contents of element {{{<div id="navigation">}}} are written in the Base Language; the {{{left_sidebar}}} element contents will be auto-detected during translation; the {{{right_sidebar}}} element contents are written in French (and a line revealing this will be displayed at the bottom); and finally the {{{footer}}} element contents are written in the Base Language. The contents of each of these elements will be translated separately into the language requested by the user. Any elements specified above which do *not* appear on any individual page including the script will be ignored and skipped out - so feel free to include such elements if required by your site...
+
+The example above will work with the _example.htm_ file distributed with the script - so you will be able to see how the page interacts with this in real life.
+
+====Step 3(c):====
+
+This step is very similar to Step 3(b) - you now need to specify the Class Names of all elements enclosing regions to translate. The Class Names should be specified using exactly the same format as for the element IDs (see Step 3(b)). As noted previously, Class Names may be used to identify multiple elements on any one page. Please bear in mind that the script expects the contents of any one element to be in a single language, but another element with the same class name can contain text in a completely different language. E.g. a blog may contain multiple entries, each written in a single language, but some entries may be written in different languages from others.
+
+When the script runs, the script will search for each occurrence of each specified element class name (if present - any elements not present will be skipped), and translate the contents of each separately (automatically detecting the language of the applicable region if necessary).
+
+A full example is shown below of the correct syntax to use when specifying the Class Names of elements enclosing regions to be translated:
+
+{{{
+var GL_classNames = [
+	["entry_baselang"],
+	["entry_french", "fr"],
+	["entry", "", true],
+	["quotes", "de", true],
+];
+}}}
+
+This will translate the regions enclosed by the 4 elements identified with the Class Names shown above. The contents of element {{{<div class="entry_baselang">}}} are always written in the Base Language; the {{{entry_french}}} element contents are always written in French; the language of each individual region enclosed by an {{{entry}}} element class name will be checked be detected automatically during translation (and a line of text containing the detected language will be displayed at the bottom of each applicable element); and finally the {{{quotes}}} element contents are always written in German (and a line showing this will be displayed at the bottom of each applicable element). The example shown here also works with the _example.htm_ file distributed with the script.
+
+No further changes to the script are necessary (unless you want to alter the functionality); so save and close the file.
+
+===Step 4:===
+
+Upload the file _translate.js_ (as well as any web-pages or files on your site that have been changed) to your server. If the above instructions have successfully been followed, the script should work in the manner expected. Your work is now complete!
+
+==Are Any More Examples Available?==
+
+The archive containing the latest release of the script includes a file entitled _example.htm_ which shows the functionality in action. This is a very simple working example, but should help you understand how to configure and use the script. Please ensure that you have extracted both _example.htm_ and _translate.js_ from the archive into a new folder before opening the example (if you do not do this, it will not work properly). If you view the source of _example.htm_ (Right Click on the page and choose _View Source_ in Internet Explorer, or _View Page Source_ in Firefox) you will see some additional comments describing how the script interacts with the page. Additional examples will be posted on this page in the near future...
