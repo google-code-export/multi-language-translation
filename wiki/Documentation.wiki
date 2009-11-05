@@ -150,10 +150,19 @@ No further changes to the script are necessary (unless you want to alter the fun
 
 Upload the file _translate.js_ (as well as any web-pages or files on your site that have been changed) to your server. If the above instructions have successfully been followed, the script should work in the manner expected. Your work is now complete!
 
-==Are Further Examples Available?==
+==Further Examples==
 
 The archive containing the latest release of the script includes a file entitled _example.htm_ which shows the functionality in action. This is a very simple working example, but should help you understand how to configure and use the script. Please ensure that you have extracted both _example.htm_ and _translate.js_ from the archive into a new folder before opening the example (if you do not do this, it will not work properly). If you view the source of _example.htm_ (Right Click on the page and choose _View Source_ in Internet Explorer, or _View Page Source_ in Firefox) you will see some additional comments describing how the script interacts with the page.
 
 We are always very interested in how the script is being used. If you have deployed or adapted it for your site, please consider providing a link to it in a new comment below this page - this would be very useful both to offer additional support for new script users, as well as to provide further "case studies" of successful implementations. Many thanks!
 
 Additional examples will be posted on this page in the near future...
+
+==Script Licence==
+The script as a whole is released as Open Source under the [http://www.opensource.org/licenses/mit-license.php MIT License]. This essentially allows you to use or adapt it for any purpose; however no warranty is provided if you choose to do so.
+
+Please note however that portions directly interact with (_Invoke_) functionality of the [http://code.google.com/intl/en/apis/ajaxlanguage/ Google AJAX Language API]. Google has not released this functionality under an Open Source licence; instead it is provided with the understanding that all usage should be in accordance with the [http://code.google.com/intl/en/apis/ajaxlanguage/terms.html Google AJAX API Terms of Use]. For details of all relevant functionality invoked by this script, please see the [http://code.google.com/intl/en/apis/ajaxlanguage/documentation/reference.html Translation API Class Reference].
+
+Therefore, whilst you are free to use or adapt the script for any purpose, *you also assume full responsibility for ensuring that your usage of this script (and/or any derivatives that continue to utilise the [http://code.google.com/intl/en/apis/ajaxlanguage/ Google AJAX Language API]) on your website is fully in compliance with these [http://code.google.com/intl/en/apis/ajaxlanguage/terms.html Terms of Use].* 
+
+The developer(s) of the script are in no way affiliated with Google, and this project is run completely independently from them.
