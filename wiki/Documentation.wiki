@@ -169,11 +169,11 @@ The developer(s) of the script are in no way affiliated with Google, and this pr
 ===Standard Users:===
 
  * A reasonably modern browser. This script has been tested successfully on the following browsers:
-  * Internet Explorer (6, 7 & 8)
-  * Mozilla Firefox (2, 3 & 3.5)
-  * Safari (3 & 4)
-  * Google Chrome (3)
-  * Opera (9 & 10)
+  * _Internet Explorer_ (6, 7 & 8)
+  * _Mozilla Firefox_ (2, 3 & 3.5)
+  * _Safari_ (3 & 4)
+  * _Google Chrome_ (3)
+  * _Opera_ (9 & 10)
  * !JavaScript must be enabled and supported by the browser
  * The browser must be able to accept cookies for your site if the current language is to be remembered when the user next visits
 
