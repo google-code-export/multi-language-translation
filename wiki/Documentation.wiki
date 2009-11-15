@@ -103,7 +103,7 @@ _Automatic translation from French: Powered By Google - View Source Text (+)_
 
 to the bottom of the relevant content. Note that this option _will_ work if a source language is manually specified, _or_ if it has been detected automatically - but _*not*_ if the Base Language format above was used (you can get around this limitation by manually specifying the Base Language as the Source Language (i.e. use {{{["elementID", "en", true],}}} instead of {{{["elementID", true],}}} assuming English is the Base Language).).
 
-If the user clicks on the _View Source Text (+)_ link shown on part of the line, the original untranslated text for the current region will be shown below it (highlighted in a green font). The user can then click on the link again to hide this content if they wish. This functionality is only available if the webmaster has chosen to display the source language below a region - it is assumed that the user would not want to view the source text of less 'important' regions such as navigational elements.
+If the user clicks on the _View Source Text (+)_ link shown on the line, the original untranslated text for the relevant region will be shown below it (highlighted in a green font). The user can then click on the link again to hide this content if they wish. This functionality is only available if the webmaster has chosen to display the source language below a region - it is assumed that the user would not want to view the source text of less 'important' regions such as navigational elements.
 
 *Putting It All Together:* A full example is shown below of the correct syntax to use when specifying the IDs of elements enclosing regions to be translated:
 
