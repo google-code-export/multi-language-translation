@@ -183,5 +183,5 @@ The developer(s) of the script are in no way affiliated with Google, and this pr
   * You do need to ensure that the site is coded in such a way that distinct regions of each page (e.g. headers, sidebars, content areas in separate languages, etc) are enclosed by HTML elements (e.g. {{{<div>}}} tags) that can be identified using IDs and/or class names - which should already be the case for the majority of sites!
   * It is recommended that your site is written using [http://validator.w3.org/ Standards Compliant] code; using an encoding which can cope with unusual characters (such as _UTF-8_). The script will still work if these are not the case, but some items may not necessarily appear as expected...
  * Access to the server that the site is located on
- * A text editor (e.g. Windows Notepad)
+ * A text editor (e.g. _Windows Notepad_)
  * Some basic familiarity with HTML and !JavaScript would be helpful
