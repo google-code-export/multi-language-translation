@@ -69,7 +69,7 @@ For the script to work correctly, you need to specify all regions on each page o
 
 Firstly, all applicable element IDs must be specified. If you have some existing knowledge of !JavaScript, you will see that this is achieved by storing them in an Array, made up of a number of sub-Arrays (do not worry if you do not understand this though - simply follow the instructions below).
 
-*i)* If an element encloses content that is written in the _Base Language_ of the site, you need to specify the element by using the following format (_exactly as shown_):
+*i)* If an element encloses content that is written in the _[#Step_2(a): Base Language]_ of the site, you need to specify the element by using the following format (_exactly as shown_):
 
 {{{
 	["elementID"],
@@ -99,9 +99,11 @@ Firstly, all applicable element IDs must be specified. If you have some existing
 
 ... this will add the line 
 
-_Automatic translation from French: Powered By Google_ 
+_Automatic translation from French: Powered By Google - View Source Text(+)_ 
 
 to the bottom of the relevant content. Note that this option _will_ work if a source language is manually specified, _or_ if it has been detected automatically - but _*not*_ if the Base Language format above was used (you can get around this limitation by manually specifying the Base Language as the Source Language (i.e. use {{{["elementID", "en", true],}}} instead of {{{["elementID", true],}}} assuming English is the Base Language).).
+
+If the user clicks on the _View Source Text (+)_ link shown on part of the line, the original untranslated text for the current region will be shown below it (highlighted in a green font). The user can then click on the link again to hide this content if they wish. This functionality is only available if the webmaster has chosen to display the source language below a region - it is assumed that the user would not want to view the source text of less 'important' regions such as navigational elements.
 
 *Putting It All Together:* A full example is shown below of the correct syntax to use when specifying the IDs of elements enclosing regions to be translated:
 
@@ -118,9 +120,9 @@ This will translate the regions enclosed by the 4 elements identified with the I
 
 The example above will work with the _example.htm_ file distributed with the script - so you will be able to see how the page interacts with this in real life.
 
-====Step 3(c):====
+====Step 2(c):====
 
-This step is very similar to Step 3(b) - you now need to specify the Class Names of all elements enclosing regions to translate. The Class Names should be specified using exactly the same format as for the element IDs (see Step 3(b)). As noted previously, Class Names may be used to identify multiple elements on any one page. Please bear in mind that the script expects the contents of any one element to be in a single language, but another element with the same class name can contain text in a completely different language. E.g. a blog may contain multiple entries, each written in a single language, but some entries may be written in different languages from others.
+This step is very similar to [#Step_2(b): Step 2(b)] - you now need to specify the Class Names of all elements enclosing regions to translate. The Class Names should be specified using exactly the same format as for the element IDs (see [#Step_2(b): Step 2(b)]). As noted previously, Class Names may be used to identify multiple elements on any one page. Please bear in mind that the script expects the contents of any one element to be in a single language, but another element with the same class name can contain text in a completely different language. E.g. a blog may contain multiple entries, each written in a single language, but some entries may be written in different languages from others.
 
 When the script runs, the script will search for each occurrence of each specified element class name (if present - any specified elements not present will be skipped), and translate the contents of each separately (automatically detecting the language of the applicable region if necessary).
 
@@ -139,7 +141,7 @@ This will translate all regions enclosed by any of the 4 elements identified wit
 
 No further changes to the script are necessary (unless you want to alter the functionality); so save and close the file.
 
-===Step 4:===
+===Step 3:===
 
 Upload the file _translate.js_ (as well as any web-pages or files on your site that have been changed) to your server. If the above instructions have successfully been followed, the script should work in the manner expected. Your work is now complete!
 
