@@ -33,7 +33,7 @@ _Note:_ If you wish, you could include the first 2 lines between the {{{<head>}}
 
 Please ensure that if you intend to upload the script to a different folder from where your web-pages are located, you update the {{{src}}} value of line 2 to the location of your script (e.g {{{src="scripts/translate.js"}}} or {{{src="http://www.example.com/scripts/translate.js"}}})
 
-When a page on your site loads, the script will create a listbox containing all the languages that your site can currently be translated into (note: each language should be auto-translated to allow native speakers to easily find their language; and the list will show additional languages automatically, as and when Google supports them). If the user changes the language, the specified content (see [#Step_2: Step 2]) will be translated into that language. The script will also remember the language they pick; so that if they visit the page again later, or visit another page on your site which includes the translation functionality, the relevant page can be (re)translated automatically. There is also an _Original Languages_ option at the top of the listbox, which will return the user to the original untranslated site (this is also the default option if they have not yet chosen a language). 
+When a page on your site loads, the script will create a listbox (at the location where you have placed the above code) containing all the languages that your site can currently be translated into (note: each language should be auto-translated to allow native speakers to easily find their language; and the list will show additional languages automatically, as and when Google supports them). If the user changes the language, the specified content (see [#Step_2: Step 2]) will be translated into that language. The script will also remember the language they pick; so that if they visit the page again later, or visit another page on your site which includes the translation functionality, the relevant page can be (re)translated automatically. There is also an _Original Languages_ option at the top of the listbox, which will return the user to the original untranslated site (this is also the default option if they have not yet chosen a language). 
 
 Note: if the user has !JavaScript disabled, the listbox will not appear (which does prevent further confusion from arising, as it prevents such users from trying to change the language - which would in any case not work unless !JavaScript was enabled). If you wish, you can display a message to the user between the {{{<div>}}} tags - e.g.
 
@@ -99,7 +99,7 @@ Firstly, all applicable element IDs must be specified. If you have some existing
 
 ... this will add the line 
 
-_Automatic translation from French: Powered By Google - View Source Text(+)_ 
+_Automatic translation from French: Powered By Google - View Source Text (+)_ 
 
 to the bottom of the relevant content. Note that this option _will_ work if a source language is manually specified, _or_ if it has been detected automatically - but _*not*_ if the Base Language format above was used (you can get around this limitation by manually specifying the Base Language as the Source Language (i.e. use {{{["elementID", "en", true],}}} instead of {{{["elementID", true],}}} assuming English is the Base Language).).
 
