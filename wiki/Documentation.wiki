@@ -185,3 +185,15 @@ The developer(s) of the script are in no way affiliated with Google, and this pr
  * Access to the server that the site is located on
  * A text editor (e.g. _Windows Notepad_)
  * Some basic familiarity with HTML and !JavaScript would be helpful
+
+==Why Do I Need to Specify the Regions to Translate on Each Page?==
+
+===Short Answer:===
+
+Because it increases translation quality, reliability and flexibility.
+
+===Long Answer:===
+
+A typical modern website is divided into a number of regions - e.g. a top banner, sidebar(s), a content area (which is usually divided into further regions - such as individual blog post entries), and a footer. Some of these regions are likely to appear on every page of your site, and will contain the same known content each time. For example, many sites have a navigation menu which appears on all pages. Other regions may vary from page to page - e.g. user-submitted content.
+
+For translation of any content to be successful, the source language must be known. If required however, this can be achieved by automatically detecting the language of a block of text during translation. Whilst this usually works reliably, occasionally the translator is unable to determine the source language correctly (e.g. for very small sections of text, or text written in very similar languages); which can reduce translation quality (i.e. caused by mis-translated text) or reliability (i.e. an error occurs because a section cannot be translated at all). Therefore, it is important to specify the language of a region of source text whenever this is already known. Requiring the webmaster to specify the regions to translate provides a mechanism to achieve this.
