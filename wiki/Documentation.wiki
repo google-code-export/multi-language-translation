@@ -214,9 +214,9 @@ Similarly, the webmaster can optionally include a line of text below specified r
 
 By contrast, such a feature can be extremely helpful in regions containing user-generated content, helping the user identify text which has been translated (and potentially also helping them understand it better, if they have some understanding of the original language). Because this optional capability is fully integrated with the existing requirement for webmasters to specify regions to translate, they therefore have full control over determining what regions (if any) should support this functionality - thus increasing flexibility.
 
-==I've Read the Above Answer, and Still Don't Want to Specify the Regions - Can I Avoid This?==
+==I've Read the Above Answer, and Still Don't Want to Specify the Regions - Do I Have To?==
 
-If you really want to. Configure the top of the script to read as follows:
+Not if you really don't want to. Configure the top of the script to read as follows:
 
 {{{
 var GL_baseLang = "en";
