@@ -232,7 +232,7 @@ Then modify the {{{<body>}}} tag of all pages that use the script, to read:
 
 The script will then do its best to automatically detect the language of all content on the page. It is however highly recommended that you avoid this approach, [#Why_Do_I_Need_to_Specify_the_Regions_to_Translate_on_Each_Page? for the reasons outlined above] - the chances of content being incorrectly translated (or of translation errors occurring) are dramatically increased. 
 
-The technique could however be useful when working with pages that are written in a single language (though if you just want a tool to translate pages between individual languages, [http://translate.google.com/translate_tools better alternatives] are probably available), or if used briefly for testing purposes.
+The technique could however be useful when working with pages that are written in a single language (though remember that if you just want a tool to translate pages between individual languages, [http://translate.google.com/translate_tools better alternatives] are probably available); or if used briefly for testing purposes.
 
 If the above technique does not meet with much success on a multi-language site, changing the size of chunks to translate MAY help improve matters. To do this, find the function {{{createChunks(srcContent)}}}, and alter the code below:
 
