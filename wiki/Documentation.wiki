@@ -51,7 +51,7 @@ Open the file _translate.js_. You need to make some configurations to the top of
 
 ====Step 2(a):====
 
-Specify the _Base Language_ for your website. This is the language the site was originally written in, and is normally the language used for all regions which appear on every page and do not change throughout the site - e.g. navigational elements such as links to other parts of the website. The base language should be entered in the form of a 2 character language code - you can view a [http://code.google.com/intl/en/apis/ajaxlanguage/documentation/reference.html#LangNameArray Complete List of Available Language Codes] here (note that you do also need to check if [http://code.google.com/intl/en/apis/ajaxlanguage/documentation/#SupportedPairs translation is supported] from the applicable language).
+Specify the _Base Language_ for your website. This is the language the site was originally written in (i.e. before any user-generated content is added), and is normally the language used for all regions which appear on every page and do not change throughout the site - e.g. navigational elements such as links to other parts of the website. The base language should be entered in the form of a 2 character language code - you can view a [http://code.google.com/intl/en/apis/ajaxlanguage/documentation/reference.html#LangNameArray Complete List of Available Language Codes] here (note that you do also need to check if [http://code.google.com/intl/en/apis/ajaxlanguage/documentation/#SupportedPairs translation is supported] from the applicable language).
 
 For example, if the base language is English, you should configure the script to read as follows:  
 
@@ -99,7 +99,7 @@ Firstly, all applicable element IDs must be specified. If you have some existing
 
 ... this will add the line 
 
-_Automatic translation from French: Powered By Google - View Source Text (+)_ 
+_Automatic translation from French: Powered By Google - <u>View Source Text (+)</u>_ 
 
 to the bottom of the relevant content. Note that this option _will_ work if a source language is manually specified, _or_ if it has been detected automatically - but _*not*_ if the Base Language format above was used (you can get around this limitation by manually specifying the Base Language as the Source Language (i.e. use {{{["elementID", "en", true],}}} instead of {{{["elementID", true],}}} assuming English is the Base Language).).
 
@@ -200,6 +200,6 @@ For translation of any content to be successful, the source language must be kno
 
 In the case of known regions which appear on every page, the source language is usually already known in advance (as the webmaster will have had to physically add the content of such regions to the site in the first place). The source language of these regions can therefore be specified, to ensure they are translated reliably and correctly each time.
 
-By contrast, the language of regions of content submitted by users can not always be easily determined (except through automatic detection); as it depends on the native language(s) of the user(s) in question. In these cases however, each individual region is likely to be written in a single language, e.g. on a blog site, a single entry will be written in just one language; even if other entries are in different languages. 
+By contrast, the language of regions of content submitted by users can not always be easily determined (except through automatic detection); as it depends on the native language(s) of the user(s) in question. In these cases however, each individual region is likely to be written in a single language, e.g. on a blog site, a single entry will be written in just one language; even if other entries are in different languages. The script works by finding each specified region (e.g. each blog entry), and translating the contents separately from all other regions. 
 
-A human can intuitively determine the regions of a page which may be written in separate languages, as most webpages are designed to visually separate out content from different areas when shown on screen. It is far harder for a computer script to achieve this however.
+A human can intuitively determine the regions of a page which may be written in separate languages, as most web pages are designed to visually separate content into different areas when shown on screen. It is far harder for a computer script to achieve this however. This is because larger regions are typically split into smaller nested sub-regions (e.g. a blog post may be made up of a title, the entry itself, and additional metadata). As a result, it is hard to determine which regions on a page are entirely written in the same language, without already knowing the source language - choose too small a region, and it is harder to detect the language during translation (as well as decreasing efficiency); choose too large a region, and the content MAY be written in multiple languages (which can cause translation problems). By contrast, a human can use their judgement to pick sensible regions for the script to translate separately from each other.
