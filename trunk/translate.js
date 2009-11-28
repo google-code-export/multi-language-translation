@@ -628,12 +628,12 @@ function showErrDetails() {
 	// continue to show original error message (but remove 'Details' link)
 	document.getElementById("translatemsg").innerHTML = '<span id="transerrmsg1">' + GL_errors.length + 
 	' Problems(s) Occurred During Translation: ' + '<a href="javascript:refresh()">Retry</a> - ' +
-	'<a href="javascript:hideTransMsg()">Hide</a><br /><em>Error(s) Reported:</em></span>' +
+	'<a href="javascript:hideTransMsg()">Hide</a>... <br /><em>Error(s) Reported:</em></span>' +
 	'<ul style="margin: 0px; padding: 0px;" id="transerrlist"></ul>';
 
 	// Loop through array containing details of all errors, and show them as a list on screen
 	for(var i in GL_errors) {
-		document.getElementById("transerrlist").innerHTML += '<li style="margin-left: 15px;">' + GL_errors[i] + '</li>';	
+		document.getElementById("transerrlist").innerHTML += '<li style="margin-left: 15px;">' + GL_errors[i] + '.</li> ';	
 	}
 
 	/* create a textarea - this will show the original source text of all affected sections (as HTML) to aid debugging
@@ -714,6 +714,10 @@ function miniTranslate(item,destLang,srcText) {
 			var chunkSubStr = 6 + transChunk[0].length;
 			// remove whitespace from item id (a problem with some translations)
 			transChunk[0] = transChunk[0].replace(/^\s+|\s+$/g,"");
+
+			// display english source text of translated item (with HTML stripped) if user hovers mouse over it
+			var stripHTML = GL_miniTransItems[transChunk[0]].innerHTML.split(/<.*?>/g);
+			GL_miniTransItems[transChunk[0]].title = "[" + stripHTML.join("") + "]";
 
 			// translate specified item (stripping the item ID from start of text)
 			GL_miniTransItems[transChunk[0]].innerHTML = result.translation.substr(chunkSubStr);
