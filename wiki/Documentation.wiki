@@ -272,6 +272,28 @@ A server-side script could potentially store online 'caches' of translated pages
 
 The script has been tested reasonably thoroughly, and should be safe to use in most cases. Naturally though, scripts are rarely perfect; so if you do spot a problem or are struggling to get it to work on your site, please do [#How_Can_I_Contribute_Towards_This_Project? get in touch with us]; and we will try to help you ASAP. We are particularly interested in cases where the script suddenly stops working (or does not work in the first place), or where the browser displays a script error - such events may imply a deeper problem to resolve, so please [#How_Can_I_Contribute_Towards_This_Project? let us know] about them in the unlikely event they occur!
 
+==Are There Any Element IDs or Class Names I Should Avoid Using on My Site?==
+
+This script uses a number of hard-coded HTML element IDs and class names to identify interface components added by it. In the very unlikely event that a page already contains HTML tags which use these names, this could cause conflicts with the script, and cause things to appear in unexpected locations on page. The complete list of element IDs and class names used by the script is therefore shown below (note: the {{{#}}} symbol is substituted for any single numeric value):
+
+ * {{{errsrctxt}}}
+ * {{{langattr}}}
+ * {{{langstring}}}
+ * {{{language}}}
+ * {{{languagelist}}}
+ * {{{perc}}}
+ * {{{srctxt#}}}
+ * {{{srctxtbracket#}}}
+ * {{{srctxtcontent#}}}
+ * {{{srctxtlnk#}}}
+ * {{{transerrlist}}}
+ * {{{transerrmsg1}}}
+ * {{{transerrmsg2}}}
+ * {{{transerrtxt}}}
+ * {{{translatemsg}}}
+
+If you know that your site already uses one or more of these names to identify elements, you will either have to rename all instances within your site to something else; or alternatively modify the script to use a different name to identify that element whenever necessary (which may be easier - using a _Find and Replace_ tool to substitute the names could be helpful here!).
+
 ==How Can I Contribute Towards This Project?==
 
 Thank you for your interest in this script. You can help us out in a number of ways, which will support future development and evolution of the functionality.
