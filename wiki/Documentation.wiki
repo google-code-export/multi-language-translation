@@ -266,6 +266,26 @@ A server-side script could potentially store online 'caches' of translated pages
 
 ==How Stable is the Script - Can I Safely Use it On My Site?==
 
-The script has been tested reasonably thoroughly, and should be safe to use in most cases. Naturally though, scripts are rarely perfect; so if you do spot a problem or are struggling to get it to work on your site, please do get in touch with us; and we will try to help you ASAP. We are particularly interested in cases where the script suddenly stops working (or does not work in the first place), or where the browser displays a script error - such events may imply a deeper problem to resolve, so please let us know about them in the unlikely event they occur!
+The script has been tested reasonably thoroughly, and should be safe to use in most cases. Naturally though, scripts are rarely perfect; so if you do spot a problem or are struggling to get it to work on your site, please do [#How_Can_I_Contribute_Towards_This_Project? get in touch with us]; and we will try to help you ASAP. We are particularly interested in cases where the script suddenly stops working (or does not work in the first place), or where the browser displays a script error - such events may imply a deeper problem to resolve, so please [How_Can_I_Contribute_Towards_This_Project? let us know] about them in the unlikely event they occur!
 
 ==How Can I Contribute Towards This Project?==
+
+Thank you for your interest in this script. You can help us out in a number of ways, which will support future development and evolution of the functionality.
+
+===Deploy the Script on Your Site:===
+
+Perhaps the most useful thing you can do, is to download the script and attempt to deploy it on your website. If you manage to implement it successfully, please do leave a comment below this page; as this will provide a useful 'case study' for future users. Similarly, if you have any problems, please do let us know by reporting an issue on the [http://code.google.com/p/multi-language-translation/issues/list Issue Tracker]. By helping to deploy this script more widely, you are ensuring that it is tested in a wider range of environments and scenarios, including those which may not have originally envisaged by the developer. In turn, if you report your findings to us, this can lead to ongoing reliability and functionality improvements.
+
+Feel free to also use the [http://code.google.com/p/multi-language-translation/issues/list Issue Tracker] to suggest improvements to the script, or enhancements to the functionality and/or new features. You are also extremely welcome to use the Issue Tracker to make more general comments or feedback; as well as to make any enquiries about the script - including requests for help in deploying it. We'd also like to receive feedback about this documentation, including any suggestions for improvement - please leave your ideas as [#commentform Comments] below this page.
+
+===Report Any Problems:===
+
+Before you report any script problems, please first review all examples thoroughly (and see if they work for you), and read through the detailed documentation above. Check for 'obvious' errors - e.g. is the script located within the right folder on your server; have all translatable regions been defined correctly within the script; have you added any minor 'syntax errors' to the script; is !JavaScript enabled? If you still are experiencing problems, please report them to us via the [http://code.google.com/p/multi-language-translation/issues/list Issue Tracker].
+
+When reporting an issue, it is helpful if you can provide as much detail as possible. For example, if Google returns one or more translation error(s) after translation; it is helpful to receive details of all error(s) that occurred, as well as the precise section(s) on a page which are affected (preferably by providing us with the HTML code of the section(s) in question). All these these details can easily be found, simply by clicking on the _'Details'_ link next to the Translation Error message.
+
+If the script does not run at all, or seems to stop running or 'hang' part-way through; it is helpful if you can provide details of script errors (if any!) displayed by the browser. If you use _Internet Explorer_, ensure that script errors will be displayed by default (go to _Tools_ > _Internet Options_ > _Advanced_, and make sure the _Disable Script Debugging_ option is not ticked, and the _Display a notification about every script error_ option is ticked. If you use _Mozilla Firefox_, you can use a debugging tool such as [http://getfirebug.com/ Firebug]. Please include the full text of any browser error(s) in your problem report.
+
+The most useful thing you can do to help us resolve issues, is to provide us with a live online example which demonstrates the problem in action. If possible, the problem needs to be reproducible (rather than just a 'random' error), so that we can isolate the causes.  Please upload a copy of your site and script to a server somewhere, and include a link to it in your problem report. Also please explain as precisely as possible how we can reproduce the problem on your site. Any example is better than none however!
+
+Finally, it is helpful if you can provide additional information about your computer, such as the connection speed and browser you are using. This can help us debug problems more effectively.  
