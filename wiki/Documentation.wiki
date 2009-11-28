@@ -264,4 +264,8 @@ A server-side script could potentially store online 'caches' of translated pages
 
 !JavaScript cannot cache content as easily. Whilst it is possible to temporarily store content, this can only take place on a per-user basis (rather than for multiple users); and the stored content will be lost next time the page reloads (unless functionality such as [http://gears.google.com/ Google Gears] were used for offline storage, which would add additional complications). As a result, client-side translation will inevitably be a bit slower. Because the translation takes place dynamically, this is less of an issue though - as the user will always have something to watch or do whilst they wait for a short period.
 
-==How stable is the script - can I safely use it on my site?==
+==How Stable is the Script - Can I Safely Use it On My Site?==
+
+The script has been tested reasonably thoroughly, and should be safe to use in most cases. Naturally though, scripts are rarely perfect; so if you do spot a problem or are struggling to get it to work on your site, please do get in touch with us; and we will try to help you ASAP. We are particularly interested in cases where the script suddenly stops working (or does not work in the first place), or where the browser displays a script error - such events may imply a deeper problem to resolve, so please let us know about them in the unlikely event they occur!
+
+==How Can I Contribute Towards This Project?==
