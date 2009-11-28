@@ -250,11 +250,15 @@ This script utilises _AJAX_ (_Asynchronous !JavaScript and XML_) as the means to
 
 It is worth noting that an alternative method could have been used - i.e. to perform translations directly on the server (e.g. using a _PHP_ or _ASP.NET_ script), before the user actually sees the web page on screen. Both approaches have their own advantages and disadvantages; these are outlined below - and should be taken into account when making a decision about whether or not to use this script...
 
+===Benefits:===
+
 Performing the translations _client-side_ through _!JavaScript_ (with _AJAX_ functionality used as necessary) does offer a number of benefits. Perhaps the main one for developers, is that it greatly increases portability. The script will work on virtually any modern website, regardless of the underlying platform (e.g. a generic _Content Management System_ such as _[http://www.drupal.org Drupal]_ or _[http://www.wordpress.org WordPress]_; a bespoke script that is written in _PHP_, _ASP.NET_, or another server-side language; or simply a set of static _HTML_ pages placed on a server). This is because it can easily be embedded within existing pages, without interfering with the underlying behaviour of the site. 
 
 By contrast, a _server-side_ script which offered similar translation capabilities would probably have to be tailored to the specific site(s) or _Content Management System(s)_  in question (e.g. by creating plug-ins for various different platforms), in order to avoid 'breaking' existing functionality - and therefore the script could not potentially be deployed anywhere near as widely. Similarly, because it is designed to run within the current page, the script will continue to work whether or not the user is logged-in to the site (which again is not always the case with certain existing server-side implementations of translation functionality - such as the original [http://translate.google.com Google Translate] tool), thus making it possible to provide them with a fully integrated experience in their own language.
 
 Another benefit is that translations are performed dynamically on screen as the user waits. They can see a status message displaying the progress that has been made so far; and the page does not have to reload if the current site language changes (always required in the case of server-side scripts) - thus interfering less with their current activities. Regions on a page are automatically updated as they are translated, meaning that the user can read some content in their own language as they wait for the rest of translation to complete. This gives translation a far more 'fluid' and visually 'exciting' feel than would be the case through a server-side script.
+
+===Trade-offs:===
 
 These benefits do have some trade-offs however. Most significantly, the user must have !JavaScript enabled within their browser, for the script to work correctly. Whilst this will be the case for most users, some will choose to disable it (or are using a browser and/or assistive technologies which do not support it well). Although the script is designed in such a way that the functionality will be completely invisible to those with !JavaScript disabled (and will therefore not interfere with their activities); this does mean that a small subset of users may potentially be excluded. Whether or not this is a problem depends on the proportion of such users on your site.
 
@@ -266,7 +270,7 @@ A server-side script could potentially store online 'caches' of translated pages
 
 ==How Stable is the Script - Can I Safely Use it On My Site?==
 
-The script has been tested reasonably thoroughly, and should be safe to use in most cases. Naturally though, scripts are rarely perfect; so if you do spot a problem or are struggling to get it to work on your site, please do [#How_Can_I_Contribute_Towards_This_Project? get in touch with us]; and we will try to help you ASAP. We are particularly interested in cases where the script suddenly stops working (or does not work in the first place), or where the browser displays a script error - such events may imply a deeper problem to resolve, so please [How_Can_I_Contribute_Towards_This_Project? let us know] about them in the unlikely event they occur!
+The script has been tested reasonably thoroughly, and should be safe to use in most cases. Naturally though, scripts are rarely perfect; so if you do spot a problem or are struggling to get it to work on your site, please do [#How_Can_I_Contribute_Towards_This_Project? get in touch with us]; and we will try to help you ASAP. We are particularly interested in cases where the script suddenly stops working (or does not work in the first place), or where the browser displays a script error - such events may imply a deeper problem to resolve, so please [#How_Can_I_Contribute_Towards_This_Project? let us know] about them in the unlikely event they occur!
 
 ==How Can I Contribute Towards This Project?==
 
