@@ -1,6 +1,6 @@
 Multi-Language Translation Script
 by Patrick Hathway, OdinLab, University of Reading
-Version 0.2.1 [2009-11-15]
+Version 0.2.2 [2009-11-29]
 
 This script automatically translates a webpage (containing text in more than one language) into any 
 single language requested by the user. This can be particularly useful for sites involving a lot of 
@@ -88,4 +88,4 @@ or suggestions, please visit the website above and get in touch!
 
 
 Patrick Hathway,
-15th November 2009
+29th November 2009
