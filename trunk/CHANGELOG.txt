@@ -13,6 +13,17 @@ FIX: A bugfix - corrects any problems or undesired behaviours in the script.
 CHANGES MADE:
 
 
+[v0.2.2 - 2009-11-29]
+IMP:	 The script now stores all translations completed since the page was last loaded. If the user
+	 switches to any one of these languages, the translated content will now therefore be displayed
+	 virtually instantaneously. Note that this will only work until the user revisits/reloads the 
+	 page, or navigates elsewhere on the site. After this, all content will have to be re-translated 
+	 from scratch again. The enhancement is nevertheless helpful to users who regularly switch 
+	 languages whilst on a page.
+NEW:	 When the mouse is moved over interface components that have been auto-translated into the current 
+	 site language, a tooltip will now appear, displaying their original English source text.
+
+
 [v0.2.1 - 2009-11-15]
 NEW:	 Users are now able to optionally view the Source text of translated regions (as specified by the
 	 webmaster). Integrated with the existing feature allowing the the webmaster to optionally display 
@@ -31,7 +42,6 @@ FIX:	 During translation, the content of a region will only now be replaced by t
 	 not already been replaced. Partially related to the previous bugfix.
 IMP:	 Refactored some code from the checkTransStatus() and endTranslation() functions to reduce 
 	 duplication and ease future maintenance.
-
 
 
 [v0.2.0 - 2009-11-02]

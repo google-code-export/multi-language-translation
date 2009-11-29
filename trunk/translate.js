@@ -5,7 +5,7 @@
 *  might have originally been written in different languages) - e.g. blogs, forums, or other community sites. 
 *  Harnesses the Google AJAX Language API to perform translation and language detection.
 *
-*  Version: 0.2.1 [2009-11-15]
+*  Version: 0.2.2 [2009-11-29]
 *  Author: Patrick Hathway, OdinLab, University of Reading.
 *  For Documentation and Updates: See http://code.google.com/p/multi-language-translation/
 *  Licence: MIT License - see http://opensource.org/licenses/mit-license.php for full terms. Also check 
@@ -46,7 +46,7 @@ var GL_classNames = [
 
 // Global variables:
 var GL_srcContent;             // array containing all content on the page to be translated, split up into chunks
-var GL_transContent;           // array containing all chunks which have been translated
+var GL_transContent = [];      // array containing all chunks which have been translated
 var GL_chunksTotal = 0;        // total number of chunks to translate
 var GL_curChunk;               // ID of current chunk being translated
 var GL_curLang;                // current site language
@@ -106,19 +106,28 @@ function getLangs() {
 
 // start the translation
 function startTranslation() {
+	// reset global variables
+	GL_curChunk = 0; GL_errors = []; GL_errSrcTxt = [];
+	
+	// check if all content has already been translated into current language since page loaded.
+	if(chkLangTrans()) {
+		return; // if so, don't need to translate content again
+	} // Otherwise, send content to google to be translated:
+	
 	// show the 'Translating...' block
 	document.getElementById("translatemsg").innerHTML = 'Translating... <span id="perc">0%</span>';
 	miniTranslate(document.getElementById("translatemsg")); // translate block into site language
 	document.getElementById("translatemsg").style.display='block';
-	
-	// reset global variables
-	GL_transContent = []; GL_curChunk = 0; GL_errors = []; GL_errSrcTxt = [];
-
-	// send content to google to be translated...:
 
 	// find out the ID of the destination language
 	var curLangNo = document.getElementById("language").selectedIndex;
 	var k = 0;
+	
+	// create sub-array to hold all translations for current language
+	GL_transContent[GL_transContent.length] = new Array(3);
+	GL_transContent[(GL_transContent.length-1)][0] = []; // this array will contain all translated chunks
+	GL_transContent[(GL_transContent.length-1)][1] = GL_curLang; // store current language
+	GL_transContent[(GL_transContent.length-1)][2] = false; // mark translation of language as incomplete
 
 	// loop through all the chunks to be translated, send to google...
 	for(var i in GL_srcContent) {
@@ -138,6 +147,21 @@ function startTranslation() {
 	}
 
 	setTimeout("checkTransStatus()", 1000); // run function to check translation status after 1 second
+}
+
+// check if page content has already been translated into current language since page loaded.
+function chkLangTrans() {
+	// loop through the list of languages the page has been translated into
+	for(var i in GL_transContent) {
+		// check if a translation for current language exists, and if so, if it is complete.
+		if((GL_transContent[i][1] == GL_curLang) && (GL_transContent[i][2] == true)){
+			/* if so, don't need to send content to google again, just assemble the pre-translated content.
+			This will *dramatically* reduce the translation time for this language! */
+			endTranslation(i);
+			return true;
+		} 
+	}
+	return false; // otherwise, all relevant page content must be submitted to google for translation.
 }
 
 // This runs after each chunk has been translated...
@@ -171,10 +195,10 @@ function translateChunk(result) {
 			return;
 		}
 
-		// store translated chunk in array along with detected source language (if known)
-		GL_transContent[transChunk[1]] = new Array(3);
-		GL_transContent[transChunk[1]][0] = result.translation.substr(chunkSubStr);
-		GL_transContent[transChunk[1]][1] = result.detectedSourceLanguage;
+		// store translated chunk in current language array, along with detected source language (if known)
+		GL_transContent[(GL_transContent.length-1)][0][transChunk[1]] = new Array(3);
+		GL_transContent[(GL_transContent.length-1)][0][transChunk[1]][0] = result.translation.substr(chunkSubStr);
+		GL_transContent[(GL_transContent.length-1)][0][transChunk[1]][1] = result.detectedSourceLanguage;
 	}
 
 	GL_curChunk++; // increment current chunk ID every time function is called
@@ -185,7 +209,7 @@ function translateChunk(result) {
 
 	// when all chunks have been translated, run the 'endTranslation' function...
 	if(GL_curChunk >= GL_chunksTotal) {
-		endTranslation();
+		endTranslation((GL_transContent.length-1)); // [final array element holds current language content!]
 	}
 }
 
@@ -209,7 +233,7 @@ function checkTransStatus() {
 	// Store the list of languages in case they are replaced during translation
 	var langList = document.getElementById("languagelist").innerHTML;
 
-	var curElement; var curTransChunk = 0; var curClass = 0;
+	var curElement; var curTransChunk = 0; var curClass = 0; var curTransLang = GL_transContent.length-1;
 
 	// loop through all element IDs (as specified at script top), searching for ones with completed translations
 	for(var i in GL_classIds) {
@@ -218,7 +242,7 @@ function checkTransStatus() {
 		// if current element ID exists on the page, replace contents with translated chunks
 		if(curElement != null) {
 			// assemble and display translated chunks for current element
-			curTransChunk = unpackTransChunks(curTransChunk,curClass,curElement,false);
+			curTransChunk = unpackTransChunks(curTransLang,curTransChunk,curClass,curElement,false);
 			curClass++; // move to next element ID
 		}
 	}
@@ -231,7 +255,7 @@ function checkTransStatus() {
 		for(var j = 0; j < allElements.length; j++) {
 			if(allElements[j].className == GL_classNames[i][0]) {
 				// assemble and display translated chunks for current element
-				curTransChunk = unpackTransChunks(curTransChunk,curClass,allElements[j],false);
+				curTransChunk = unpackTransChunks(curTransLang,curTransChunk,curClass,allElements[j],false);
 				curClass++; // move to next element Class Name
 			}
 		}
@@ -258,7 +282,7 @@ function checkTransStatus() {
 }
 
 // runs after all translations have been completed; displaying the results on screen in place of previous content
-function endTranslation() {
+function endTranslation(curTransLang) {
 	var curElement;
 	var curTransChunk = 0; var curClass = 0;
 
@@ -269,7 +293,7 @@ function endTranslation() {
 		// if current element ID exists on the page, replace contents with translated chunks
 		if(curElement != null) {
 			// assemble and display translated chunks for current element
-			curTransChunk = unpackTransChunks(curTransChunk,curClass,curElement,true,GL_classIds[i]);
+			curTransChunk = unpackTransChunks(curTransLang,curTransChunk,curClass,curElement,true,GL_classIds[i]);
 			curClass++; // move to next element ID
 		}
 	}
@@ -282,7 +306,7 @@ function endTranslation() {
 		for(var j = 0; j < allElements.length; j++) {
 			if(allElements[j].className == GL_classNames[i][0]) {
 				// assemble and display translated chunks for current element
-				curTransChunk = unpackTransChunks(curTransChunk,curClass,allElements[j],true,GL_classNames[i]);
+				curTransChunk = unpackTransChunks(curTransLang,curTransChunk,curClass,allElements[j],true,GL_classNames[i]);
 				curClass++; // move to next element Class Name
 			}
 		}
@@ -305,12 +329,15 @@ function endTranslation() {
 		miniTranslate(document.getElementById("translatemsg")); // translate warning message into current site language
 		return;
 	}
+	
+	// mark translation of page into current language as complete, so that translation can be quicker next time.
+	GL_transContent[curTransLang][2] = true;
 
 	hideTransMsg(); // otherwise, hide 'Translating...' message
 }
 
 // assemble and display translated chunks for current element on page
-function unpackTransChunks(curTransChunk,curClassNum,curElement,transComplete,curClass) {
+function unpackTransChunks(curTransLang,curTransChunk,curClassNum,curElement,transComplete,curClass) {
 	// 'static' member variable to keep track of how many times function has run
 	if(typeof unpackTransChunks.curLinkId == 'undefined') {
 		// reset curLinkId variable if not defined yet - it's used to identify the correct 'show source text' link
@@ -323,9 +350,9 @@ function unpackTransChunks(curTransChunk,curClassNum,curElement,transComplete,cu
 	// loop through all translated chunks, assembling all translated content for current element
 	for(var i = 0; i < (GL_srcContent[curClassNum].length - 1); i++) {
 		// if current chunk does not exist, translation is not complete or errors occurred
-		if((GL_transContent[curTransChunk] == null) && (transComplete == false)) {
+		if((GL_transContent[curTransLang][0][curTransChunk] == null) && (transComplete == false)) {
 			break; // stop looping through chunks if full translation has not yet been completed
-		} else if((GL_transContent[curTransChunk] == null) && (transComplete == true)) {
+		} else if((GL_transContent[curTransLang][0][curTransChunk] == null) && (transComplete == true)) {
 			// if full translation IS complete, show warning message and a link to show source text (in red)
 			curContent += '<div style="color: red;" id="srctxt' + j + '">[<span class="transerrtxt">' +
 			'<em style="text-transform: uppercase;">THIS SECTION COULD NOT BE TRANSLATED</em> - '+
@@ -335,7 +362,7 @@ function unpackTransChunks(curTransChunk,curClassNum,curElement,transComplete,cu
 			unpackTransChunks.curLinkId++; j = unpackTransChunks.curLinkId; // increment current link id		
 		} else {
 			// otherwise append current translated chunk to translated content string
-			curContent += GL_transContent[curTransChunk][0];
+			curContent += GL_transContent[curTransLang][0][curTransChunk][0];
 		}
 		curTransChunk++; // move to next chunk
 	}
@@ -344,19 +371,19 @@ function unpackTransChunks(curTransChunk,curClassNum,curElement,transComplete,cu
 	if(transComplete == true) {
 		curElement.innerHTML = curContent;
 		// append a language string to bottom of current element if desired
-		getLangString(curElement,curClass,initTransChunk,(GL_srcContent[curClassNum].length - 1),j,curClassNum);
+		getLangString(curTransLang,curElement,curClass,initTransChunk,(GL_srcContent[curClassNum].length - 1),j,curClassNum);
 	// otherwise, check if all translated chunks for current element were assembled
-	} else if((i == (GL_srcContent[curClassNum].length - 1)) && (GL_transContent[initTransChunk][2] != true))	{			
+	} else if((i == (GL_srcContent[curClassNum].length - 1)) && (GL_transContent[curTransLang][0][initTransChunk][2] != true))	{			
 		// if so (and current element translation is not yet marked as complete), replace contents with translation
 		curElement.innerHTML = curContent;
-		GL_transContent[initTransChunk][2] = true; // mark current element translation as complete
+		GL_transContent[curTransLang][0][initTransChunk][2] = true; // mark current element translation as complete
 	}
 
 	return curTransChunk; // return current chunk id to calling function
 }
 
 // If required, find and append a string containing the Source Language to the bottom of the specified element
-function getLangString(curElement,curClass,curTransChunk,transChunksLen,j,curClassNum) {
+function getLangString(curTransLang,curElement,curClass,curTransChunk,transChunksLen,j,curClassNum) {
 	
 	var detectedLang = "";
 
@@ -371,7 +398,7 @@ function getLangString(curElement,curClass,curTransChunk,transChunksLen,j,curCla
 	}
 	// otherwise find out language based on the detected source languages for translated chunks in current element 
 	else {
-		detectedLang = findDetectedLang(curTransChunk,transChunksLen);
+		detectedLang = findDetectedLang(curTransLang,curTransChunk,transChunksLen);
 	}
 
 	// if detected language is same as site language, there is no need to display language string, so end function
@@ -400,19 +427,19 @@ function getLangString(curElement,curClass,curTransChunk,transChunksLen,j,curCla
 }
 
 // find out the most common detected language for all translated chunks in current element, to appear in language string
-function findDetectedLang(curTransChunk,transChunksLen) {
+function findDetectedLang(curTransLang,curTransChunk,transChunksLen) {
 	var chunkLangs = []; langCounter = 0;
 
 	// loop through all translated chunks in current element
 	for(var i = 0; i < transChunksLen; i++) {
 		// bugfix: set detected language to 'undefined' if an error occurred during translation... 
-		if(GL_transContent[curTransChunk] == null) {
-			GL_transContent[curTransChunk] = new Array(2);
-			GL_transContent[curTransChunk][1] = "undefined";	
+		if(GL_transContent[curTransLang][0][curTransChunk] == null) {
+			GL_transContent[curTransLang][0][curTransChunk] = new Array(3);
+			GL_transContent[curTransLang][0][curTransChunk][1] = "undefined";	
 		}
 		// loop through array of detected languages to see if current chunk has an existing detected language
 		for(var j = 0; j < chunkLangs.length; j++) {
-			if(chunkLangs[j][0] == GL_transContent[curTransChunk][1]) {
+			if(chunkLangs[j][0] == GL_transContent[curTransLang][0][curTransChunk][1]) {
 				// if so, increment counter containing the total number of chunks with that language
 				chunkLangs[j][1]++;
 				break; // halt loop
@@ -421,7 +448,7 @@ function findDetectedLang(curTransChunk,transChunksLen) {
 		// if current chunk has a language not yet detected, add it to end of detected languages array
 		if(j == chunkLangs.length) {
 			chunkLangs[j] = new Array(2);
-			chunkLangs[j][0] = GL_transContent[curTransChunk][1]; // name of detected language
+			chunkLangs[j][0] = GL_transContent[curTransLang][0][curTransChunk][1]; // name of detected language
 			chunkLangs[j][1] = 1; // total number of chunks with that language
 		}
 		curTransChunk++; // move to next chunk
