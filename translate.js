@@ -153,7 +153,7 @@ function startTranslation() {
 function chkLangTrans() {
 	// loop through the list of languages the page has been translated into
 	for(var i in GL_transContent) {
-		// check if a translation for current language exists, and if so, if it is complete.
+		// check if a translation for current language exists, and if so, whether it is complete.
 		if((GL_transContent[i][1] == GL_curLang) && (GL_transContent[i][2] == true)){
 			/* if so, don't need to send content to google again, just assemble the pre-translated content.
 			This will *dramatically* reduce the translation time for this language! */
@@ -373,7 +373,7 @@ function unpackTransChunks(curTransLang,curTransChunk,curClassNum,curElement,tra
 		// append a language string to bottom of current element if desired
 		getLangString(curTransLang,curElement,curClass,initTransChunk,(GL_srcContent[curClassNum].length - 1),j,curClassNum);
 	// otherwise, check if all translated chunks for current element were assembled
-	} else if((i == (GL_srcContent[curClassNum].length - 1)) && (GL_transContent[curTransLang][0][initTransChunk][2] != true))	{			
+	} else if((i == (GL_srcContent[curClassNum].length - 1)) && (GL_transContent[curTransLang][0][initTransChunk][2] != true)) {			
 		// if so (and current element translation is not yet marked as complete), replace contents with translation
 		curElement.innerHTML = curContent;
 		GL_transContent[curTransLang][0][initTransChunk][2] = true; // mark current element translation as complete
