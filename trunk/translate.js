@@ -5,7 +5,7 @@
 *  might have originally been written in different languages) - e.g. blogs, forums, or other community sites. 
 *  Harnesses the Google AJAX Language API to perform translation and language detection.
 *
-*  Version: 0.2.2 [2009-11-29]
+*  Version: 0.2.3 [2009-11-29]
 *  Author: Patrick Hathway, OdinLab, University of Reading.
 *  For Documentation and Updates: See http://code.google.com/p/multi-language-translation/
 *  Licence: MIT License - see http://opensource.org/licenses/mit-license.php for full terms. Also check 
@@ -124,7 +124,7 @@ function startTranslation() {
 	var k = 0;
 	
 	// create sub-array to hold all translations for current language
-	GL_transContent[GL_transContent.length] = new Array(3);
+	GL_transContent[GL_transContent.length]        = new Array(3);
 	GL_transContent[(GL_transContent.length-1)][0] = []; // this array will contain all translated chunks
 	GL_transContent[(GL_transContent.length-1)][1] = GL_curLang; // store current language
 	GL_transContent[(GL_transContent.length-1)][2] = false; // mark translation of language as incomplete
@@ -719,21 +719,35 @@ function hideSrcTxt(curLinkId,curClassNum,curChunkId) {
 }
 
 // translate small non crucial items of text into current site language
-function miniTranslate(item,destLang,srcText) {
+function miniTranslate(item,destLang,srcTxt) {
 	if(typeof destLang == "undefined") {
 		var destLang = GL_curLang; // if the destLang argument was not specified, use the current site language
 	}
-	if(typeof srcText == "undefined") {
-		var srcText = item.innerHTML; // if the srcText argument was not specified, use the current item contents
+	if(typeof srcTxt == "undefined") {
+		var srcTxt = item.innerHTML; // if the srcText argument was not specified, use the current item contents
 	}
 
-	// create source text by adding current item ID to start of item text (ID will ensure correct item is translated)
-	srcText = GL_miniTransItems.length + "<br />" + srcText;
+	// loop through translated items array to see if a translation for current text already exists since page loaded
+	for(var i in GL_miniTransItems) {
+		// check if source text and destination language match a translated item (and a completed translation exists for it)
+		if((GL_miniTransItems[i][1] == srcTxt) && (GL_miniTransItems[i][2] == destLang) && (GL_miniTransItems[i][3] != "")) {
+			item.innerHTML = GL_miniTransItems[i][3]; // if so, display existing translation in item
+			item.title = srcTxt.split(/<.*?>/g).join(""); // display English source text as a tooltip (strip HTML first)
+			return; // Don't need to send a translation request to Google, so end function.
+		}
+	}
 
 	// store item to be translated in global array for access by callback function
-	GL_miniTransItems[GL_miniTransItems.length]=item;
+	GL_miniTransItems[GL_miniTransItems.length]	   = new Array(4);
+	GL_miniTransItems[(GL_miniTransItems.length-1)][0] = item;
+	GL_miniTransItems[(GL_miniTransItems.length-1)][1] = srcTxt;
+	GL_miniTransItems[(GL_miniTransItems.length-1)][2] = destLang;
+	GL_miniTransItems[(GL_miniTransItems.length-1)][3] = "";
 
-	google.language.translate(srcText, "en", destLang, function(result) {
+	// create source text by adding current item ID to start of item text (ID will ensure correct item is translated)
+	srcTxt = (GL_miniTransItems.length-1) + "<br />" + srcTxt;
+
+	google.language.translate(srcTxt, "en", destLang, function(result) {
         	if (!result.error) {
 			// split into array based on separator, so we know the id of translated item
 			var transChunk = result.translation.split("<br />");
@@ -743,11 +757,12 @@ function miniTranslate(item,destLang,srcText) {
 			transChunk[0] = transChunk[0].replace(/^\s+|\s+$/g,"");
 
 			// display english source text of translated item (with HTML stripped) if user hovers mouse over it
-			var stripHTML = GL_miniTransItems[transChunk[0]].innerHTML.split(/<.*?>/g);
-			GL_miniTransItems[transChunk[0]].title = "[" + stripHTML.join("") + "]";
+			var strippedSrcTxt = GL_miniTransItems[transChunk[0]][1].split(/<.*?>/g).join("");
+			GL_miniTransItems[transChunk[0]][0].title = "[" + strippedSrcTxt  + "]";
 
-			// translate specified item (stripping the item ID from start of text)
-			GL_miniTransItems[transChunk[0]].innerHTML = result.translation.substr(chunkSubStr);
+			// store and display translation of specified item (stripping item ID from start of text)
+			GL_miniTransItems[transChunk[0]][3] = result.translation.substr(chunkSubStr);
+			GL_miniTransItems[transChunk[0]][0].innerHTML = GL_miniTransItems[transChunk[0]][3];
         	}
 	});
 }

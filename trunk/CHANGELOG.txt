@@ -13,6 +13,12 @@ FIX: A bugfix - corrects any problems or undesired behaviours in the script.
 CHANGES MADE:
 
 
+[v0.2.3 - 2009-11-29]
+IMP:	 All auto-translations of interface components since the page last loaded are now also stored, so
+	 they can be displayed virtually instantaneously if required later. Works until the user revisits
+	 or reloads the page, or navigates to another page.
+
+
 [v0.2.2 - 2009-11-29]
 IMP:	 The script now stores all translations completed since the page was last loaded. If the user
 	 switches to any one of these languages, the translated content will now therefore be displayed

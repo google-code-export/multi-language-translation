@@ -1,6 +1,6 @@
 Multi-Language Translation Script
 by Patrick Hathway, OdinLab, University of Reading
-Version 0.2.2 [2009-11-29]
+Version 0.2.3 [2009-11-29]
 
 This script automatically translates a webpage (containing text in more than one language) into any 
 single language requested by the user. This can be particularly useful for sites involving a lot of 
