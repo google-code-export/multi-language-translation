@@ -162,6 +162,8 @@ Therefore, whilst you are free to use or adapt the script for any purpose, *you 
 
 The developer(s) of the script are in no way affiliated with Google, and this project is run completely independently from them.
 
+Whilst not actually required by the licence, if you decide to use or adapt this script, we would be extremely grateful if you could somewhere retain or include a link to our project homepage - [http://code.google.com/p/multi-language-translation/] - either as a comment inside the script itself, or within any documentation you write, or as a link on your website. Even better, let us know if you have successfully deployed the script on your site (by adding a [#commentform comment] below this page), and we'll add a link from here back to you! Many thanks!
+
 =FAQs and Further Information=
 
 ==What Things Do I Need to Use and/or Deploy This Script?==
