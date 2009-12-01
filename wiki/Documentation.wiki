@@ -149,9 +149,9 @@ Upload the file _translate.js_ (as well as any web-pages or files on your site t
 
 The archive containing the latest release of the script includes a file entitled _example.htm_ which shows the functionality in action. This is a very simple working example, but should help you understand how to configure and use the script. Please ensure that you have extracted both _example.htm_ and _translate.js_ from the archive into a new folder before opening the example (if you do not do this, it will not work properly). If you view the source of _example.htm_ (Right Click on the page and choose _View Source_ in Internet Explorer, or _View Page Source_ in Firefox) you will see some additional comments describing how the script interacts with the page.
 
-We are always very interested in how the script is being used. If you have deployed or adapted it for your site, please consider providing a link to it in a [#commentform new comment] below this page - this would be very useful both to offer additional support for new script users, as well as to provide further "case studies" of successful implementations. Many thanks!
+In addition to this, a fully-functioning real-life example of the script in action can be found at: http://www.mobi-blog.eu - feel free to test out the translation functionality on the site, and also view the script [http://mobi-blog.eu/wp-content/themes/cutline-3-column-split-11/translate.js source] to see how it has been configured...
 
-Additional examples will be posted on this page in the near future...
+We are always very interested in how the script is being used. If you have deployed or adapted it for your site, please consider providing a link to it in a [#commentform new comment] below this page - this would be very useful both to offer additional support for new script users, as well as to provide further "case studies" of successful implementations. Many thanks!
 
 ==Script Licence==
 The script as a whole is released as Open Source under the [http://www.opensource.org/licenses/mit-license.php MIT License]. This essentially allows you to use or adapt it for any purpose; however no warranty is provided if you choose to do so.
