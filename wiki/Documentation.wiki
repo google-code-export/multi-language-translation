@@ -180,6 +180,8 @@ The archive containing the latest release of the script includes a file entitled
 
 In addition to this, a fully-functioning real-life example of the script in action can be found at: http://www.mobi-blog.eu - feel free to test out the translation functionality on the site, and also view the script [http://mobi-blog.eu/wp-content/themes/cutline-3-column-split-11/translate.js source] to see how it has been configured...
 
+See also this independent [http://lyricsmeaning.davidsmit.za.net/home.aspx Lyrics & Meanings] website designed to be accessed from inside Winamp - it uses the script to translate song lyrics and associated comments from users.
+
 We are always very interested in how the script is being used. If you have deployed or adapted it for your site, please consider providing a link to it in a [#commentform new comment] below this page - this would be very useful both to offer additional support for new script users, as well as to provide further "case studies" of successful implementations. Many thanks!
 
 ==Script Licence==
