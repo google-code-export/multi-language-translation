@@ -24,7 +24,7 @@ Firstly, you need to include the following 3 HTML lines somewhere within all web
 {{{
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript" src="translate.js"></script>
-<div id="languagelist"></div>
+<div id="mlt_languagelist"></div>
 }}}
 
 If you use a _Content Management System_ to maintain your site (either a generic one such as [http://www.drupal.org Drupal], or a bespoke one), you could place this code in a _Block_, _Widget_, or top banner; so that the script runs on every page on your site. If your site is made up of static HTML pages however, you will need to repeat this step for all pages you wish the translation functionality to work on.
@@ -33,12 +33,14 @@ _Note:_ If you wish, you could include the first 2 lines between the {{{<head>}}
 
 Please ensure that if you intend to upload the script to a different folder from where your web-pages are located, you update the {{{src}}} value of line 2 to the location of your script (e.g {{{src="scripts/translate.js"}}} or {{{src="http://www.example.com/scripts/translate.js"}}})
 
-When a page on your site loads, the script will create a listbox at the location where you have placed the above code, containing all the languages that your site can currently be translated into (note: each language will be auto-translated to allow native speakers to easily find their language; and the list will show additional languages automatically, as and when Google supports them). If the user changes the language, the specified content (see [#Step_2: Step 2]) will be translated into that language. The script will also remember the language they pick; so that if they visit the page again later, or visit another page on your site which includes the translation functionality, the relevant page can be (re)translated automatically. There is also an _Original Languages_ option at the top of the listbox, which will return the user to the original untranslated site (this is also the default option if they have not yet chosen a language). 
+When a page on your site loads, the script will create a listbox at the location where you have placed the above code, containing all the languages that your site can currently be translated into (note: each language will be auto-translated to allow native speakers to easily find their language; and the list will show additional languages automatically, as and when Google supports them). If the user changes the language, the specified content (see [#Step_2: Step 2]) will be translated into that language. The script will also remember the language they pick; so that if they visit the page again later, or visit another page on your site which includes the translation functionality, the relevant page can be (re)translated automatically. 
+
+There is also an _Original Languages_ option at the top of the listbox, which will return the user to the original untranslated site. If a language has not yet been chosen, this option will be selected (by default) and the site will thus remain untranslated, but the user will normally see a message asking them if they want to translate pages into their language (detected based on their browser / system settings - see [#Step_2(d): Step 2(d)]). 
 
 Note: if the user has !JavaScript disabled, the listbox will not appear (which does prevent further confusion from arising, as it prevents such users from trying to change the language - which would in any case not work unless !JavaScript was enabled). If you wish, you can display a message to the user between the {{{<div>}}} tags - e.g.
 
 {{{
-<div id="languagelist">Enable JavaScript!</div>
+<div id="mlt_languagelist">Enable JavaScript!</div>
 }}}
 
 This message will not be shown unless !JavaScript is disabled or not supported by the user's browser...
@@ -139,6 +141,33 @@ var GL_classNames = [
 
 This will translate all regions enclosed by any of the 4 elements identified with the Class Names shown above. The contents of element {{{<div class="entry_baselang">}}} are always written in the Base Language; the {{{entry_french}}} element contents are always written in French; the language of each individual region enclosed by an {{{entry}}} element class name will be detected automatically during translation (and a line of text containing the detected language will be displayed at the bottom of each applicable element); and finally the {{{quotes}}} element contents are always written in German (and a line showing this will be displayed at the bottom of each applicable element). The example shown here also works with the _example.htm_ file distributed with the script.
 
+====Step 2(d):====
+
+Specify the language that the site will be displayed in for new visitors (i.e. users who are yet to select a new language). The default setting is to leave this blank:
+
+{{{
+var GL_curLang = "";
+}}}
+
+With this setting, all content on the page will remain untranslated; however every time a page containing the translation functionality is visited, new users will see the following message at the top:
+
+
+_Translate This Page into English? <u>Yes</u> | <u>No</u>_
+
+... Where English appears to be their main language. This language is detected based on the user's browser / system (if they are using Internet Explorer this will be based on the regional settings on their computer; otherwise it will be based on the default language of their current browser). If the user clicks on the 'Yes' link, the page will automatically be translated into the detected language (and this will also be performed on all future pages without prompting them again); if they click on 'No', the page will remain untranslated (and the user will no longer be prompted to switch languages when they visit future pages - they can of course change the site language manually however!). Note that the message will only ever appear if Google can actually translate a site into the detected language (or a non-region-specific variation of it).
+
+The webmaster can alternatively configure this setting so that it behaves differently. If a language code is specified, then the site will be automatically translated into that language when new users visit, regardless of whether or not they speak that language. This may be useful for sites which are predominantly in a single language, and where a high proportion of visitors speak that language. E.g. to display the site in English to new visitors by default, use the following syntax:
+
+{{{
+var GL_curLang = "en";
+}}}
+
+Finally, if the original untranslated site should always be displayed to new users, and a message should NOT ever be displayed at the top suggesting that they switch to their detected language, use the following syntax (this was the default setting for script versions prior to 0.2.4):
+
+{{{
+var GL_curLang = "orig";
+}}}
+
 No further changes to the script are necessary (unless you want to alter the functionality); so save and close the file.
 
 ===Step 3:===
@@ -224,6 +253,7 @@ Not if you really want to avoid it. A workaround is available - simply configure
 var GL_baseLang = "en";
 var GL_classIds = [["translate", ""]];
 var GL_classNames = [];
+var GL_curLang = "";
 }}}
 
 Then modify the {{{<body>}}} tag of all pages that use the script, to read:
@@ -276,23 +306,25 @@ The script has been tested reasonably thoroughly, and should be safe to use in m
 
 ==Are There Any Element IDs or Class Names I Should Avoid Using on My Site?==
 
-This script uses a number of hard-coded HTML element IDs and class names to identify interface components added by it. In the very unlikely event that a page already contains HTML tags which use these names, this could cause conflicts with the script, and cause things to appear in unexpected locations on page. The complete list of element IDs and class names used by the script is therefore shown below (note: the {{{#}}} symbol is substituted for any single numeric value):
+This script uses a number of hard-coded HTML element IDs and class names to identify interface components added by it. In the very unlikely event that a page already contains HTML tags which use these names, this could cause conflicts with the script, and cause things to appear in unexpected locations on page. In a nutshell, as of script version 0.2.4., all element IDs and class names are prepended with {{{mlt_}}} (and this convention will continue to be followed if any elements should be added in future versions) - so if possible, try to avoid using element IDs / class names that start with those 4 letters on your site.
 
- * {{{errsrctxt}}}
- * {{{langattr}}}
- * {{{langstring}}}
- * {{{language}}}
- * {{{languagelist}}}
- * {{{perc}}}
- * {{{srctxt#}}}
- * {{{srctxtbracket#}}}
- * {{{srctxtcontent#}}}
- * {{{srctxtlnk#}}}
- * {{{transerrlist}}}
- * {{{transerrmsg1}}}
- * {{{transerrmsg2}}}
- * {{{transerrtxt}}}
- * {{{translatemsg}}}
+For reference, the complete list of HTML element IDs and class names currently used by the script is shown below (note: the {{{#}}} symbol is substituted for any single numeric value):
+
+ * {{{mlt_errsrctxt}}}
+ * {{{mlt_langattr}}}
+ * {{{mlt_langstring}}}
+ * {{{mlt_language}}}
+ * {{{mlt_languagelist}}}
+ * {{{mlt_perc}}}
+ * {{{mlt_srctxt#}}}
+ * {{{mlt_srctxtbracket#}}}
+ * {{{mlt_srctxtcontent#}}}
+ * {{{mlt_srctxtlnk#}}}
+ * {{{mlt_transerrlist}}}
+ * {{{mlt_transerrmsg1}}}
+ * {{{mlt_transerrmsg2}}}
+ * {{{mlt_transerrtxt}}}
+ * {{{mlt_translatemsg}}}
 
 If you know that your site already uses one or more of these names to identify elements, you will either have to rename all instances within your site to something else; or alternatively modify the script to use a different name to identify that element whenever necessary (which may be easier - using a _Find and Replace_ tool to substitute the names could be helpful here!).
 
@@ -307,6 +339,13 @@ Upgrading from an older version to a newer version of this script is usually ext
  # Your upgrade is now complete!
 
 These steps should always work, unless radical changes have been made to the script since a previous version. Before upgrading, it is always worth checking this section of the documentation first, as it will be updated should any more significant changes ever be required as part of an upgrade.
+
+===Alterations for Script Version 0.2.4===
+
+If you are upgrading from a version of the script older than 0.2.4 to this or a higher version, please bear the following in mind:
+
+ * All HTML elements inserted by the script are now prepended with {{{mlt_}}} to reduce the likelihood of conflicts - see  [#Are_There_Any_Element_IDs_or_Class_Names_I_Should_Avoid_Using_on section above] for details. This includes the element {{{<div id="languagelist"></div>}}} which you will have previously manually inserted somewhere on each of your pages. Therefore, for the script to continue working, you MUST adjust this code wherever it appears on your site to read as follows: {{{<div id="mlt_languagelist"></div>}}}.
+ * The variable {{{GL_curLang}}} has now been moved from the global variables into the configurable section of the script, allowing the webmaster to specify an initial site language for new users (see [#Step_2(d): Step 2(d)] for details). When upgrading, you may wish to move this manually yourself and make any desired configurations. The script will still work if you do not do this; however it will behave slightly differently from older versions - a message will now appear at the top asking the user if they wish to translate the site into their current language. To restore the behaviour of older versions, use {{{GL_curLang = "orig"}}}.
 
 ==Why Was This Project Started?==
 
