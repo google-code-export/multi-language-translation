@@ -5,7 +5,7 @@
 *  might have originally been written in different languages) - e.g. blogs, forums, or other community sites. 
 *  Harnesses the Google AJAX Language API to perform translation and language detection.
 *
-*  Version: 0.2.3 [2009-11-29]
+*  Version: 0.2.4 [2010-01-18]
 *  Author: Patrick Hathway, OdinLab, University of Reading.
 *  For Documentation and Updates: See http://code.google.com/p/multi-language-translation/
 *  Licence: MIT License - see http://opensource.org/licenses/mit-license.php for full terms. Also check 
@@ -41,6 +41,11 @@ var GL_classNames = [
 	["quotes", "de", true],
 ];
 
+
+/* 4. Specify the default language for new visitors (leave blank to auto-detect using browser/system settings) */
+
+var GL_curLang = "";
+
 /* The rest of the Script should not be modified; unless you want to alter the functionality!
 *  ------------------------------------------------------------------------------------------ */
 
@@ -49,7 +54,6 @@ var GL_srcContent;             // array containing all content on the page to be
 var GL_transContent = [];      // array containing all chunks which have been translated
 var GL_chunksTotal = 0;        // total number of chunks to translate
 var GL_curChunk;               // ID of current chunk being translated
-var GL_curLang;                // current site language
 var GL_errors;                 // array containing details of all errors that occur (if applicable)
 var GL_errSrcTxt;              // array containing all source text that causes errors (if applicable)
 var GL_miniTransItems = [];    // array containing element IDs/class names which contain minor items to translate
@@ -75,9 +79,9 @@ function initialise() {
 // display listbox containing all languages the site can be translated into (so that one can be selected by user)
 function getLangs() {
 	// create listbox within script so that it won't appear if JavaScript is disabled
-	document.getElementById("languagelist").innerHTML = '<select id="language" onchange="changeLang()"></select>' +
-	'<div id="langattr"></div>';
-	var langItems = document.getElementById("language").options;
+	document.getElementById("mlt_languagelist").innerHTML = '<select id="mlt_language" onchange="changeLang()"></select>' +
+	'<div id="mlt_langattr"></div>';
+	var langItems = document.getElementById("mlt_language").options;
 
 	// add option to top of listbox allowing user to view the site in its original (i.e. un-translated) languages
 	langItems.add(new Option("Original Languages", "orig", true));
@@ -89,8 +93,7 @@ function getLangs() {
 		// convert language string to title case
 		var langString = lang.substr(0,1) + lang.substr(1).toLowerCase();
 		// improve formatting of 'chinese_simplified' and 'chinese_traditional' language strings
-		var tmpLang = langString.split("_");
-		langString = tmpLang.join(" - ");
+		langString = langString.split("_").join(" - ");
 
 		// check that Google can translate content into the current language
 		if ((google.language.isTranslatable(langCode)) && (langCode != "")) {
@@ -100,8 +103,8 @@ function getLangs() {
 		}
 	}
 
-	document.getElementById("language").value = GL_curLang; // change listbox to display current site language
-	google.language.getBranding("langattr");  // display Google attribution below listbox (as required by TOS)
+	document.getElementById("mlt_language").value = GL_curLang; // change listbox to display current site language
+	google.language.getBranding("mlt_langattr");  // display Google attribution below listbox (as required by TOS)
 }
 
 // start the translation
@@ -112,15 +115,20 @@ function startTranslation() {
 	// check if all content has already been translated into current language since page loaded.
 	if(chkLangTrans()) {
 		return; // if so, don't need to translate content again
+	} 
+	
+	// sanity check - can google actually translate into the current site language?
+	if (!(google.language.isTranslatable(GL_curLang)) || (GL_curLang == "")) {
+		return; // if not, end translation
 	} // Otherwise, send content to google to be translated:
 	
 	// show the 'Translating...' block
-	document.getElementById("translatemsg").innerHTML = 'Translating... <span id="perc">0%</span>';
-	miniTranslate(document.getElementById("translatemsg")); // translate block into site language
-	document.getElementById("translatemsg").style.display='block';
+	document.getElementById("mlt_translatemsg").innerHTML = 'Translating... <span id="mlt_perc">0%</span>';
+	miniTranslate(document.getElementById("mlt_translatemsg")); // translate block into site language
+	document.getElementById("mlt_translatemsg").style.display='block';
 
 	// find out the ID of the destination language
-	var curLangNo = document.getElementById("language").selectedIndex;
+	var curLangNo = document.getElementById("mlt_language").selectedIndex;
 	var k = 0;
 	
 	// create sub-array to hold all translations for current language
@@ -191,7 +199,7 @@ function translateChunk(result) {
 
 		/* If the translated chunk has a different destination language to the current site language, discard
 		translation & end function. This may happen if user changes language whilst translation is in progress */
-		if(transChunk[0] != document.getElementById("language").selectedIndex) {
+		if(transChunk[0] != document.getElementById("mlt_language").selectedIndex) {
 			return;
 		}
 
@@ -205,7 +213,7 @@ function translateChunk(result) {
 
 	// calculate and display percentage of translation completed, based on number of chunks remaining
 	var perc = (GL_curChunk / GL_chunksTotal)*100;
-	document.getElementById("perc").innerHTML = Math.round(perc) + "%";
+	document.getElementById("mlt_perc").innerHTML = Math.round(perc) + "%";
 
 	// when all chunks have been translated, run the 'endTranslation' function...
 	if(GL_curChunk >= GL_chunksTotal) {
@@ -231,7 +239,7 @@ function checkTransStatus() {
 	checkTransStatus.chkStatusCount++; // increment Translation Status counter
 
 	// Store the list of languages in case they are replaced during translation
-	var langList = document.getElementById("languagelist").innerHTML;
+	var langList = document.getElementById("mlt_languagelist").innerHTML;
 
 	var curElement; var curTransChunk = 0; var curClass = 0; var curTransLang = GL_transContent.length-1;
 
@@ -262,9 +270,9 @@ function checkTransStatus() {
 	}
 
 	// if listbox containing all languages has been removed as a result of translation, display it again
-	if(document.getElementById("languagelist").innerHTML == "") {
-		document.getElementById("languagelist").innerHTML = langList;
-		document.getElementById("language").value = GL_curLang; // change listbox to show current language
+	if(document.getElementById("mlt_languagelist").innerHTML == "") {
+		document.getElementById("mlt_languagelist").innerHTML = langList;
+		document.getElementById("mlt_language").value = GL_curLang; // change listbox to show current language
 	}
 
 	/* if translation still isn't complete after 30 seconds, update translation message. Note: there is no
@@ -273,9 +281,9 @@ function checkTransStatus() {
 		// calculate and display percentage of translation completed, based on number of chunks remaining
 		var perc = Math.round((GL_curChunk / GL_chunksTotal)*100) + "%";
 		// update translation status message
-		document.getElementById("translatemsg").innerHTML = 'Translating (Slowly!)... ' +
-		'<span id="perc">' + perc + '</span> - <a href="javascript:refresh()">Retry</a>';
-		miniTranslate(document.getElementById("translatemsg")); // translate block into site language
+		document.getElementById("mlt_translatemsg").innerHTML = 'Translating (Slowly!)... ' +
+		'<span id="mlt_perc">' + perc + '</span> - <a href="javascript:refresh()">Retry</a>';
+		miniTranslate(document.getElementById("mlt_translatemsg")); // translate block into site language
 	}
 
 	setTimeout("checkTransStatus()", 1000); // check translation status again after another second
@@ -319,14 +327,14 @@ function endTranslation(curTransLang) {
 	getLangs();
 
 	// translate the 'Original Languages' listbox item to equivalent in current site language
-	miniTranslate(document.getElementById("language").options[0],GL_curLang,"Original Languages");
+	miniTranslate(document.getElementById("mlt_language").options[0],GL_curLang,"Original Languages");
 	
 	// if any errors occured during translation, display warning message at top of screen and end function 
 	if(GL_errors.length != 0) {
-		document.getElementById("translatemsg").innerHTML = GL_errors.length + ' Problems(s) Occurred During Translation: ' +
+		document.getElementById("mlt_translatemsg").innerHTML = GL_errors.length + ' Problems(s) Occurred During Translation: ' +
 		'<a href="javascript:refresh()">Retry</a> - <a href="javascript:showErrDetails()">Details</a> - ' +
 		'<a href="javascript:hideTransMsg()">Hide</a>';
-		miniTranslate(document.getElementById("translatemsg")); // translate warning message into current site language
+		miniTranslate(document.getElementById("mlt_translatemsg")); // translate warning message into current site language
 		return;
 	}
 	
@@ -354,10 +362,10 @@ function unpackTransChunks(curTransLang,curTransChunk,curClassNum,curElement,tra
 			break; // stop looping through chunks if full translation has not yet been completed
 		} else if((GL_transContent[curTransLang][0][curTransChunk] == null) && (transComplete == true)) {
 			// if full translation IS complete, show warning message and a link to show source text (in red)
-			curContent += '<div style="color: red;" id="srctxt' + j + '">[<span class="transerrtxt">' +
+			curContent += '<div style="color: red;" id="mlt_srctxt' + j + '">[<span class="mlt_transerrtxt">' +
 			'<em style="text-transform: uppercase;">THIS SECTION COULD NOT BE TRANSLATED</em> - '+
-			'<a id="srctxtlnk' + j + '" href="javascript:showSrcTxt(' + j + ',' + curClassNum + ',' + (i+1) + 
-			')">View Source Text [+]</a></span><span id="srctxtbracket' + j + '">]</span></div>';
+			'<a id="mlt_srctxtlnk' + j + '" href="javascript:showSrcTxt(' + j + ',' + curClassNum + ',' + (i+1) + 
+			')">View Source Text [+]</a></span><span id="mlt_srctxtbracket' + j + '">]</span></div>';
 			GL_errSrcTxt[GL_errSrcTxt.length] = GL_srcContent[curClassNum][i]; // store affected source text
 			unpackTransChunks.curLinkId++; j = unpackTransChunks.curLinkId; // increment current link id		
 		} else {
@@ -406,24 +414,32 @@ function getLangString(curTransLang,curElement,curClass,curTransChunk,transChunk
 			return;
 	}
 
-	// convert the Google language code into a string containing the source language name.
+	var srcLangString = getFmtLangStr(detectedLang); // retrieve name of detected language as a formatted string 
+
+	// append language string to current element...
+	curElement.innerHTML += '<div style="color: green;" id="mlt_srctxt' + j + '">[<span class="mlt_langstring" ' +
+	'style="font-family: arial, sans-serif; font-size: 11px;"><em>Automatic translation from ' + srcLangString + 
+	': ' +  google.language.getBranding().innerHTML + '</em> - <a id="mlt_srctxtlnk' + j + '" href="javascript:showSrcTxt(' + 
+	j + ',' + curClassNum + ',0)">View Source Text [+]</a></span><span id="mlt_srctxtbracket' + j + '">]</span></div>';
+}
+
+// convert a google language code into a formatted string containing the language name
+function getFmtLangStr(lang) {
+	// loop through list of supported languages and retrieve names
 	for(var l in google.language.Languages) {
-		if(google.language.Languages[l] == detectedLang) {
+		if(google.language.Languages[l] == lang) {
 			// convert language string into title case
-			var srcLangString = l.substr(0,1) + l.substr(1).toLowerCase();
+			var lang = l.substr(0,1) + l.substr(1).toLowerCase();
+			// improve formatting of 'chinese_simplified' and 'chinese_traditional' language strings
+			lang = lang.split("_").join(" - ");
 			break; // stop loop (don't need to continue searching for languages)
 		}
 	}
 	// if language cannot be found in list of supported languages, set language to 'unknown'
-	if(typeof srcLangString == "undefined") {
-		srcLangString = "an unknown language";
+	if(typeof lang == "undefined") {
+		lang = "An Unknown Language";
 	}
-
-	// append language string to current element...
-	curElement.innerHTML += '<div style="color: green;" id="srctxt' + j + '">[<span class="langstring" ' +
-	'style="font-family: arial, sans-serif; font-size: 11px;"><em>Automatic translation from ' + srcLangString + 
-	': ' +  google.language.getBranding().innerHTML + '</em> - <a id="srctxtlnk' + j + '" href="javascript:showSrcTxt(' + 
-	j + ',' + curClassNum + ',0)">View Source Text [+]</a></span><span id="srctxtbracket' + j + '">]</span></div>';
+	return lang; // return formatted language string
 }
 
 // find out the most common detected language for all translated chunks in current element, to appear in language string
@@ -473,9 +489,9 @@ function transAddedText() {
 	var allElements = document.getElementsByTagName("*"); // get all elements on page, so relevant ones can be translated
 	var foundElements = [];
 
-	// loop through all elements to find any of class 'langstring' or 'transerrtxt' 
+	// loop through all elements to find any of class 'mlt_langstring' or 'mlt_transerrtxt' 
 	for(var i=0;i<allElements.length;i++) {
-		if((allElements[i].className == "langstring") || (allElements[i].className == "transerrtxt")) {
+		if((allElements[i].className == "mlt_langstring") || (allElements[i].className == "mlt_transerrtxt")) {
 			foundElements[foundElements.length] = allElements[i];
 		}
 	}
@@ -612,7 +628,7 @@ function addTransMsgs() {
 	
 	// add element to container created above - this will display the translation messages
 	var translateMsg = document.createElement("div");
-	translateMsg.id = "translatemsg";
+	translateMsg.id = "mlt_translatemsg";
 	transCont.appendChild(translateMsg);
 
 	// define visual styles for translation messages displayed on screen
@@ -646,76 +662,76 @@ function addTransMsgs() {
 
 // Hide 'Translating...' message (or translation error message) - runs at end of translation, or if user dismisses error message
 function hideTransMsg() {
-	document.getElementById("translatemsg").innerHTML = "";
-	document.getElementById("translatemsg").style.display='none';
+	document.getElementById("mlt_translatemsg").innerHTML = "";
+	document.getElementById("mlt_translatemsg").style.display='none';
 }
 
 // if the user clicks on the 'Details' link [after error(s) occurred], show details of all errors on screen
 function showErrDetails() {
 	// continue to show original error message (but remove 'Details' link)
-	document.getElementById("translatemsg").innerHTML = '<span id="transerrmsg1">' + GL_errors.length + 
+	document.getElementById("mlt_translatemsg").innerHTML = '<span id="mlt_transerrmsg1">' + GL_errors.length + 
 	' Problems(s) Occurred During Translation: ' + '<a href="javascript:refresh()">Retry</a> - ' +
 	'<a href="javascript:hideTransMsg()">Hide</a>... <br /><em>Error(s) Reported:</em></span>' +
-	'<ul style="margin: 0px; padding: 0px;" id="transerrlist"></ul>';
+	'<ul style="margin: 0px; padding: 0px;" id="mlt_transerrlist"></ul>';
 
 	// Loop through array containing details of all errors, and show them as a list on screen
 	for(var i in GL_errors) {
-		document.getElementById("transerrlist").innerHTML += '<li style="margin-left: 15px;">' + GL_errors[i] + '.</li> ';	
+		document.getElementById("mlt_transerrlist").innerHTML += '<li style="margin-left: 15px;">' + GL_errors[i] + '.</li> ';	
 	}
 
 	/* create a textarea - this will show the original source text of all affected sections (as HTML) to aid debugging
 	   Note: because translations are returned using AJAX, the affected sections are not NECESSARILY in the same order as
 	   the errors reported (though in many cases, they will be!) */
-	document.getElementById("translatemsg").innerHTML += '<em id="transerrmsg2">Section(s) Affected:</em><br />' +
-	'<textarea id="errsrctxt" rows="8" readonly="readonly" style="width: 99%; background-color: silver; border: 1px gray solid;">' +
+	document.getElementById("mlt_translatemsg").innerHTML += '<em id="mlt_transerrmsg2">Section(s) Affected:</em><br />' +
+	'<textarea id="mlt_errsrctxt" rows="8" readonly="readonly" style="width: 99%; background-color: silver; border: 1px gray solid;">' +
 	'</textarea>';
 
 	// Loop through Source Text array, appending to textarea.
 	for(var i = 0; i < GL_errSrcTxt.length; i++) {
-		document.getElementById("errsrctxt").value += "Affected Section " + (i+1) + ":\n" + GL_errSrcTxt[i] + "\n\n";
+		document.getElementById("mlt_errsrctxt").value += "Affected Section " + (i+1) + ":\n" + GL_errSrcTxt[i] + "\n\n";
 	}
 
 	// Translate the entire contents of the Translation Errors box (with the exception of the text inside the textarea)
-	miniTranslate(document.getElementById("transerrmsg1")); miniTranslate(document.getElementById("transerrlist"));
-	miniTranslate(document.getElementById("transerrmsg2"));
+	miniTranslate(document.getElementById("mlt_transerrmsg1")); miniTranslate(document.getElementById("mlt_transerrlist"));
+	miniTranslate(document.getElementById("mlt_transerrmsg2"));
 }
 
 // function runs when the user clicks on a link to view the original source text for a translated element / chunk
 function showSrcTxt(curLinkId,curClassNum,curChunkId) {
 	// if the current chunk should be shown only, display chunk on screen
 	if((curChunkId-1) != -1) {
-		document.getElementById("srctxt"+curLinkId).innerHTML += 
-		'<div id="srctxtcontent' + curLinkId + '">'+GL_srcContent[curClassNum][(curChunkId-1)]+']</div>';
+		document.getElementById("mlt_srctxt"+curLinkId).innerHTML += 
+		'<div id="mlt_srctxtcontent' + curLinkId + '">'+GL_srcContent[curClassNum][(curChunkId-1)]+']</div>';
 	} else {
 	// otherwise assemble all chunks for current element, and display on screen
 		var srcTxt = "";
 		for(var i = 0; i < (GL_srcContent[curClassNum].length - 1); i++) {
 			srcTxt +=  GL_srcContent[curClassNum][i];
 		}
-		document.getElementById("srctxt"+curLinkId).innerHTML += 
-		'<div id="srctxtcontent' + curLinkId + '">'+srcTxt+']</div>';
+		document.getElementById("mlt_srctxt"+curLinkId).innerHTML += 
+		'<div id="mlt_srctxtcontent' + curLinkId + '">'+srcTxt+']</div>';
 	}	
 
 	// update Source Text link so that when clicked in future, the source text will be hidden instead...
-	srcTxtLnk = document.getElementById("srctxtlnk"+curLinkId);
+	srcTxtLnk = document.getElementById("mlt_srctxtlnk"+curLinkId);
 	srcTxtLnk.innerHTML = "Hide Source Text [-]";
 	srcTxtLnk.href = 'javascript:hideSrcTxt(' + curLinkId + ',' + curClassNum + ',' + curChunkId + ')';
 	miniTranslate(srcTxtLnk); // translate link text
-	document.getElementById("srctxtbracket"+curLinkId).innerHTML = ""; // hide bracket after link
+	document.getElementById("mlt_srctxtbracket"+curLinkId).innerHTML = ""; // hide bracket after link
 }
 
 // function runs when the user clicks on a link to hide the original source text for a translated element / chunk
 function hideSrcTxt(curLinkId,curClassNum,curChunkId) {
 	// remove the element containing the original source text
-	srcTxtContent = document.getElementById("srctxtcontent"+curLinkId);
-	document.getElementById("srctxt"+curLinkId).removeChild(srcTxtContent);
+	srcTxtContent = document.getElementById("mlt_srctxtcontent"+curLinkId);
+	document.getElementById("mlt_srctxt"+curLinkId).removeChild(srcTxtContent);
 
 	// update Source Text link so that when clicked in future, the source text will be shown instead...
-	srcTxtLnk = document.getElementById("srctxtlnk"+curLinkId);
+	srcTxtLnk = document.getElementById("mlt_srctxtlnk"+curLinkId);
 	srcTxtLnk.innerHTML = "View Source Text [+]";
 	srcTxtLnk.href = 'javascript:showSrcTxt(' + curLinkId + ',' + curClassNum + ',' + curChunkId + ')';
 	miniTranslate(srcTxtLnk); // translate link text
-	document.getElementById("srctxtbracket"+curLinkId).innerHTML = "]"; // show bracket after link
+	document.getElementById("mlt_srctxtbracket"+curLinkId).innerHTML = "]"; // show bracket after link
 }
 
 // translate small non crucial items of text into current site language
@@ -768,9 +784,14 @@ function miniTranslate(item,destLang,srcTxt) {
 }
 
 // runs when the user changes the site language
-function changeLang() {
-	// get the new language requested
-	GL_curLang = document.getElementById("language").value;
+function changeLang(destLang) {
+	if(typeof destLang != "undefined") {
+		GL_curLang = destLang; // if the destLang argument was specified, set new site language to this
+		document.getElementById("mlt_language").value = GL_curLang; // change listbox to display new site language
+	} else {
+		// otherwise get the new language requested by user
+		GL_curLang = document.getElementById("mlt_language").value;
+	}
 
 	// store the requested language in a cookie
 	setLangCookie();
@@ -787,6 +808,7 @@ function changeLang() {
 
 // find out the value of the language cookie (if it exists)
 function getLangCookie() {
+	var curStoredLang;
 	// retrieve a list of cookies for this page, split into array elements (separated by ; if multiple cookies)
 	var getCurLang=document.cookie.split(";");
 	// loop through all array elements (i.e. cookies) until one with name 'lang' is found.
@@ -797,16 +819,61 @@ function getLangCookie() {
 
 		if(lngCookie.indexOf("lang=") == 0) {
 			// find out value of lang
-			GL_curLang = lngCookie.substring(5);
+			curStoredLang = lngCookie.substring(5);
 		}
 	}
 	
-	// set language to the original site languages if cookie doesn't exist 
-	if(typeof GL_curLang == "undefined") {
-		GL_curLang = "orig";
+	// if language cookie exists, set current site language to stored value
+	if(typeof curStoredLang != "undefined") {
+		GL_curLang = curStoredLang;
+	// otherwise, check if an initial language has been specified
+	} else if((GL_curLang == "") || (typeof GL_curLang == "undefined")) {
+		detectUserLang(); // if not, find out user's language based on their settings, and offer to translate into that language
+		GL_curLang = "orig"; // show site using original languages for now
+		return; // don't want to store language in cookie until one has been specified, so end function
 	}
 
-	setLangCookie(); // set / renew cookie (to store new expiry date)
+	setLangCookie(); // if valid cookie exists or initial language was specified, set/renew cookie (to store new expiry date)
+}
+
+// If a new user has not specified a language yet, offer to translate page into their current browser / system language
+function detectUserLang(){
+	/* detect user's current language (if they are using IE this will be based on the regional settings on their system; 
+	   otherwise it will be based on the default language of their current browser) */
+	var detectedLang = (navigator.language) ? navigator.language : navigator.userLanguage;
+	
+	// if language cannot be detected for some reason, end function.
+	if((typeof detectedLang == "undefined") || (detectedLang == ""))  {
+		return;
+	}
+	
+	// if language is regional dialect (e.g. "en-gb"), check last 2 letters are upper case - for google compatibility.
+	if(detectedLang.length == 5) {
+		detectedLang = detectedLang.substr(0,3) + detectedLang.substr(3).toUpperCase();
+	}
+	
+	// check that Google can translate content into detected language
+	if (!google.language.isTranslatable(detectedLang)) {
+		// if not, check if language is a regional dialect (e.g. "en-GB")
+		if(detectedLang.length == 5) {
+			// if so, Google may still be able to translate into a non-regional equivalent (e.g. "en")
+			detectedLang = detectedLang.substr(0,2);
+			if (!google.language.isTranslatable(detectedLang)) {
+				return; // google cannot translate into non-regional equivalent, so end function
+			}
+		// language is not a regional dialect, and google cannot translate into it, so end function
+		} else {
+			return;
+		}
+	}
+	
+	var detectedLangStr = getFmtLangStr(detectedLang); // retrieve name of detected language as a formatted string
+	
+	// display message asking user if they want to translate current page into detected language
+	document.getElementById("mlt_translatemsg").innerHTML =  'Translate this page into ' + detectedLangStr + '? ' +
+	'<a href="javascript:changeLang(\'' + detectedLang + '\')">Yes</a> | <a href="javascript:changeLang(\'orig\')">No</a>';
+	miniTranslate(document.getElementById("mlt_translatemsg"),detectedLang); // translate question into detected language
+	document.getElementById("mlt_translatemsg").style.display='block'; // show the question on screen
 }
 
 // create a cookie to store the current site language

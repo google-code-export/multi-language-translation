@@ -1,6 +1,6 @@
 Multi-Language Translation Script
 by Patrick Hathway, OdinLab, University of Reading
-Version 0.2.3 [2009-11-29]
+Version 0.2.4 [2010-01-18]
 
 This script automatically translates a webpage (containing text in more than one language) into any 
 single language requested by the user. This can be particularly useful for sites involving a lot of 
@@ -27,7 +27,7 @@ Below are some instructions describing very briefly how to deploy this script on
 
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript" src="translate.js"></script>
-<div id="languagelist"></div>
+<div id="mlt_languagelist"></div>
 
 At this location of each page, a listbox will appear, allowing the user to change languages...
 
@@ -88,4 +88,4 @@ or suggestions, please visit the website above and get in touch!
 
 
 Patrick Hathway,
-29th November 2009
+18th January 2010
