@@ -5,7 +5,7 @@
 *  might have originally been written in different languages) - e.g. blogs, forums, or other community sites. 
 *  Harnesses the Google AJAX Language API to perform translation and language detection.
 *
-*  Version: 0.2.4 [2010-01-18]
+*  Version: 0.2.5 [2010-01-22]
 *  Author: Patrick Hathway, OdinLab, University of Reading.
 *  For Documentation and Updates: See http://code.google.com/p/multi-language-translation/
 *  Licence: MIT License - see http://opensource.org/licenses/mit-license.php for full terms. Also check 
@@ -24,10 +24,10 @@ var GL_baseLang = "en";
 *  each element separately; any elements that cannot be found on a page will be ignored:   */
 
 var GL_classIds = [
-	["navigation"],
+	["navigation", ""],
 	["left_sidebar", ""],
 	["right_sidebar", "fr", true],
-	["footer"],
+	["footer"]
 ];
 
 /* 3. Specify the Class Names of all major regions (i.e. HTML elements) in your site that should have their 
@@ -38,7 +38,7 @@ var GL_classNames = [
 	["entry_baselang"],
 	["entry_french", "fr"],
 	["entry", "", true],
-	["quotes", "de", true],
+	["quotes", "de", true]
 ];
 
 
@@ -87,7 +87,7 @@ function getLangs() {
 	langItems.add(new Option("Original Languages", "orig", true));
 
 	// loop through list of currently available languages and add each to listbox
-	for (var lang in google.language.Languages) {
+	for(var lang in google.language.Languages) {
 		// find out the 2 character Google language code
 		var langCode = google.language.Languages[lang];
 		// convert language string to title case
@@ -138,7 +138,7 @@ function startTranslation() {
 	GL_transContent[(GL_transContent.length-1)][2] = false; // mark translation of language as incomplete
 
 	// loop through all the chunks to be translated, send to google...
-	for(var i in GL_srcContent) {
+	for(var i = 0; i < GL_srcContent.length; i++) {
 		// find out the source language for the current element to be translated
 		var srcLang = GL_srcContent[i][GL_srcContent[i].length - 1];
 
@@ -160,7 +160,7 @@ function startTranslation() {
 // check if page content has already been translated into current language since page loaded.
 function chkLangTrans() {
 	// loop through the list of languages the page has been translated into
-	for(var i in GL_transContent) {
+	for(var i = 0; i < GL_transContent.length; i++) {
 		// check if a translation for current language exists, and if so, whether it is complete.
 		if((GL_transContent[i][1] == GL_curLang) && (GL_transContent[i][2] == true)){
 			/* if so, don't need to send content to google again, just assemble the pre-translated content.
@@ -244,7 +244,7 @@ function checkTransStatus() {
 	var curElement; var curTransChunk = 0; var curClass = 0; var curTransLang = GL_transContent.length-1;
 
 	// loop through all element IDs (as specified at script top), searching for ones with completed translations
-	for(var i in GL_classIds) {
+	for(var i = 0; i < GL_classIds.length; i++) {
 		curElement = document.getElementById(GL_classIds[i][0]); // find out current element
 
 		// if current element ID exists on the page, replace contents with translated chunks
@@ -258,7 +258,7 @@ function checkTransStatus() {
 	// Get all elements on the page, so that ones with the specified class names can be located
 	var allElements = document.getElementsByTagName("*");
 	// loop through all element class names (as specified at script top), searching for completed translations
-	for(var i in GL_classNames) {
+	for(var i = 0; i < GL_classNames.length; i++) {
 		// loop through all elements, so that any with the current class name can be identified
 		for(var j = 0; j < allElements.length; j++) {
 			if(allElements[j].className == GL_classNames[i][0]) {
@@ -295,7 +295,7 @@ function endTranslation(curTransLang) {
 	var curTransChunk = 0; var curClass = 0;
 
 	// loop through all element IDs (as specified at script top), replacing current contents with translations
-	for(var i in GL_classIds) {
+	for(var i = 0; i < GL_classIds.length; i++) {
 		curElement = document.getElementById(GL_classIds[i][0]); // find out current element
 
 		// if current element ID exists on the page, replace contents with translated chunks
@@ -309,7 +309,7 @@ function endTranslation(curTransLang) {
 	// Get all elements on the page, so that ones with the specified class names can be located
 	var allElements = document.getElementsByTagName("*");
 	// loop through all element class names (as specified at script top), so contents can be replaced by translations
-	for(var i in GL_classNames) {
+	for(var i = 0; i < GL_classNames.length; i++) {
 		// loop through all elements, so that any with the current class name can be identified
 		for(var j = 0; j < allElements.length; j++) {
 			if(allElements[j].className == GL_classNames[i][0]) {
@@ -472,7 +472,7 @@ function findDetectedLang(curTransLang,curTransChunk,transChunksLen) {
 
 	/* once array has been created containing all detected languages in current element, loop through it
 	to find the most common detected language - language string should contain this */
-	for(i in chunkLangs) {
+	for(i = 0; i < chunkLangs.length; i++) {
 		if(chunkLangs[i][1] > langCounter) {
 			/* if current language was detected more times than all previous languages, store language
 			and number of times detected - so that next language can be compared against this total */
@@ -490,14 +490,14 @@ function transAddedText() {
 	var foundElements = [];
 
 	// loop through all elements to find any of class 'mlt_langstring' or 'mlt_transerrtxt' 
-	for(var i=0;i<allElements.length;i++) {
+	for(var i=0; i<allElements.length; i++) {
 		if((allElements[i].className == "mlt_langstring") || (allElements[i].className == "mlt_transerrtxt")) {
 			foundElements[foundElements.length] = allElements[i];
 		}
 	}
 
 	// translate all located elements (runs separately from above code to prevent infinite loop as items are translated)
-	for(i in foundElements) {
+	for(i = 0; i < foundElements.length; i++) {
 		miniTranslate(foundElements[i]); // translate current element
 	}
 }
@@ -509,7 +509,7 @@ function buildChunkedContent() {
 
 	/* loop through all applicable element IDs (as specified at script top), converting the contents of each into chunks,
 	   and storing each chunk in an array */
-	for(var i in GL_classIds) {
+	for(var i = 0; i < GL_classIds.length; i++) {
 		curElement = document.getElementById(GL_classIds[i][0]); // find out current element
 		// check that element actually exists on the page - if not, ignore it
 		if(curElement != null) {
@@ -530,9 +530,9 @@ function buildChunkedContent() {
 	// get all elements on page, so that the ones specified can be located
 	var allElements = document.getElementsByTagName("*");
 	// loop through all applicable element IDs (as specified at script top), converting into chunks and storing in array
-	for(var i in GL_classNames) {
+	for(var i = 0; i < GL_classNames.length; i++) {
 		// find all elements which have the current class name
-		for(var k in allElements) { 
+		for(var k = 0; k < allElements.length; k++) { 
 			if(allElements[k].className == GL_classNames[i][0]) {
 				// separate the content of current element into chunks
 				GL_srcContent[j] = createChunks(allElements[k]);
@@ -585,7 +585,7 @@ function createChunks(srcContent) {
 	// Create the chunks - don't split either tags or words (to ensure as high translation quality as possible)
 	var chunks = []; var curChunk = 0;
 	chunks[0]="";
-	for (i = 0; i<contTotal; i++) {
+	for (i = 0; i < contTotal; i++) {
 		// if next content item (tag or textual) won't exceed length of current chunk, add it to chunk
 		if((chunks[curChunk].length + content[i].length) < chars) {
 			chunks[curChunk] += content[i];
@@ -675,7 +675,7 @@ function showErrDetails() {
 	'<ul style="margin: 0px; padding: 0px;" id="mlt_transerrlist"></ul>';
 
 	// Loop through array containing details of all errors, and show them as a list on screen
-	for(var i in GL_errors) {
+	for(var i = 0; i < GL_errors.length; i++) {
 		document.getElementById("mlt_transerrlist").innerHTML += '<li style="margin-left: 15px;">' + GL_errors[i] + '.</li> ';	
 	}
 
@@ -744,7 +744,7 @@ function miniTranslate(item,destLang,srcTxt) {
 	}
 
 	// loop through translated items array to see if a translation for current text already exists since page loaded
-	for(var i in GL_miniTransItems) {
+	for(var i = 0; i < GL_miniTransItems.length; i++) {
 		// check if source text and destination language match a translated item (and a completed translation exists for it)
 		if((GL_miniTransItems[i][1] == srcTxt) && (GL_miniTransItems[i][2] == destLang) && (GL_miniTransItems[i][3] != "")) {
 			item.innerHTML = GL_miniTransItems[i][3]; // if so, display existing translation in item
