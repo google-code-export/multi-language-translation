@@ -13,6 +13,12 @@ FIX: A bugfix - corrects any problems or undesired behaviours in the script.
 CHANGES MADE:
 
 
+[v0.2.5 - 2010-01-22]
+FIX:	 Fixed bug that could cause script errors and crashes on certain sites. NOTE: as part of this 
+	 fix, the configurable variables GL_classIds and GL_classNames can no longer contain commas
+	 after the last specified regions - if upgrading, this may need to be fixed manually.
+
+
 [v0.2.4 - 2010-01-18]
 NEW:	 When a new user visits a site, by default the script will now auto-detect their language, based 
 	 on their browser or system settings. A message will be shown at the top, asking if they wish to 
@@ -30,8 +36,7 @@ IMP:	 The class names / ids of all interface components added by the script are 
 IMP:	 Refactored some code that displays a formatted language name - allowing for easier re-use.
 FIX:	 Minor fix - script will now check that page content can actually be translated into a requested
 	 language before submitting to google - thus avoiding translation errors in these rare cases.
-	 
-
+ 
 
 [v0.2.3 - 2009-11-29]
 IMP:	 All auto-translations of interface components since the page last loaded are now also stored, so
