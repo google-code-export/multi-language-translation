@@ -1,0 +1,107 @@
+This file contains details of all changes and enhancements made to the Multi-Language Translation Script 
+since its release...
+
+
+LEGEND:
+
+
+NEW: A new functionality or capability offered by the script.
+IMP: An improvement or enhancement to existing functionality.
+FIX: A bugfix - corrects any problems or undesired behaviours in the script.
+
+
+CHANGES MADE:
+
+
+[v0.2.5 - 2010-01-22]
+FIX:	 Fixed bug that could cause script errors and crashes on certain sites. NOTE: as part of this 
+	 fix, the configurable variables GL_classIds and GL_classNames can no longer contain commas
+	 after the last specified regions - if upgrading, this may need to be fixed manually.
+
+
+[v0.2.4 - 2010-01-18]
+NEW:	 When a new user visits a site, by default the script will now auto-detect their language, based 
+	 on their browser or system settings. A message will be shown at the top, asking if they wish to 
+	 translate the page into that language. If they click 'Yes' all pages will be translated into that
+	 language automatically in future; if they click 'No' they can still change languages manually, 
+	 but will no longer be prompted.
+NEW:	 Alternatively, the webmaster can now specify an initial site language; when new users visit each 
+	 page will automatically be translated into that language. It is still possible to specify that 
+	 pages should be displayed in their original languages (without displaying a prompt message), 
+	 if desired.
+IMP:	 The class names / ids of all interface components added by the script are now all prepended with
+	 "mlt_". This reduces the likelihood of conflicts with existing elements on a page. NOTE: This
+	 includes the "languagelist" element, so if upgrading from a previous version, you need to rename 
+	 your previously inserted HTML snippet to the following: <div id="mlt_languagelist"></div> 
+IMP:	 Refactored some code that displays a formatted language name - allowing for easier re-use.
+FIX:	 Minor fix - script will now check that page content can actually be translated into a requested
+	 language before submitting to google - thus avoiding translation errors in these rare cases.
+ 
+
+[v0.2.3 - 2009-11-29]
+IMP:	 All auto-translations of interface components since the page last loaded are now also stored, so
+	 they can be displayed virtually instantaneously if required later. Works until the user revisits
+	 or reloads the page, or navigates to another page.
+
+
+[v0.2.2 - 2009-11-29]
+IMP:	 The script now stores all translations completed since the page was last loaded. If the user
+	 switches to any one of these languages, the translated content will now therefore be displayed
+	 virtually instantaneously. Note that this will only work until the user revisits/reloads the 
+	 page, or navigates elsewhere on the site. After this, all content will have to be re-translated 
+	 from scratch again. The enhancement is nevertheless helpful to users who regularly switch 
+	 languages whilst on a page.
+NEW:	 When the mouse is moved over interface components that have been auto-translated into the current 
+	 site language, a tooltip will now appear, displaying their original English source text.
+
+
+[v0.2.1 - 2009-11-15]
+NEW:	 Users are now able to optionally view the Source text of translated regions (as specified by the
+	 webmaster). Integrated with the existing feature allowing the the webmaster to optionally display 
+	 the source language of various regions. Now an additional link will appear next to this text line; 
+	 if clicked, the source text will be displayed (and highlighted in a green font) below the translated 
+	 text. If the link is clicked again, the source text will then be hidden. The functionality is also 
+	 fully integrated with the error handling functionality - now the source text of affected sections 
+	 can be revealed by clicking on the relevant link on page (rather than being displayed by default, 
+	 as introduced in version 0.2.0).
+FIX:	 The listbox displaying all languages is no longer re-created repeatedly during translation (caused 
+	 by a flaw in a workaround preventing the language list from disappearing completely if located in 
+	 a region being translated). Now the listbox will just be created as the page loads, refreshed once 
+	 (but not completely recreated) if required during translation, and finally re-created once after 
+	 translation [in case any problems occurred earlier].
+FIX:	 During translation, the content of a region will only now be replaced by translated text if it has
+	 not already been replaced. Partially related to the previous bugfix.
+IMP:	 Refactored some code from the checkTransStatus() and endTranslation() functions to reduce 
+	 duplication and ease future maintenance.
+
+
+[v0.2.0 - 2009-11-02]
+NEW: 	 Initial Open Source release. Substantial re-working of many script portions:
+NEW/IMP: The script can now be deployed easily on any website. Regions to translate on each page can be 
+	 indicated by the webmaster far more simply and flexibly. Because the source language can now
+	 easily be specified for regions with known languages, the likelihood of translation errors is
+	 reduced.
+NEW/IMP: Script now creates a local 'cache' every time each page loads, 'chunking' the content as part of 
+	 this process. This means that all content can be submitted to Google immediately, and correctly
+	 reassembled after translation - rather than having to wait for translation of each region to
+	 complete. This results in noticeably faster and smoother translations in most cases. It also
+	 means that translations can be performed on page 'dynamically', without reloading the page.
+IMP:	 More reliable and far more efficient language detection. To increase translation speed, creation
+	 of the text line displaying the source language is now performed entirely after translation.
+IMP:	 Webmaster can now easily specify multiple regions to show text line revealing source language.
+NEW/IMP: Dramatically improved error handling. User can now optionally view details of ALL errors that
+	 may have occurred (rather than just the most recent one), as well as see the sections affected
+	 (displayed as HTML code to aid debugging by webmasters). The affected sections are still also
+	 marked on the page itself; but are now highlighted in a red font, and the original Source text 
+	 of affected sections is shown at the correct location on each page as well. The user also now
+	 has the ability to dismiss any error messages that appear.
+NEW:	 Script now handles 'timeouts' effectively - allowing users to retry a translation if not
+	 complete after 30 seconds.
+NEW:	 The listbox containing all languages is now generated dynamically when the page loads, and
+	 contains the complete list of languages available from Google. Each language is automatically
+	 translated so that native speakers can find their language more easily.
+FIX/IMP: Numerous other reliability improvements and minor bugfixes.
+	 
+
+[v0.1.0 - MAY/JUNE 2009]
+NEW: 	 Initial release of functionality.
