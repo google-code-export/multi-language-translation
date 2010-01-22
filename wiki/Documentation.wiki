@@ -116,7 +116,7 @@ var GL_classIds = [
 	["navigation"],
 	["left_sidebar", ""],
 	["right_sidebar", "fr", true],
-	["footer"],
+	["footer"]
 ];
 }}}
 
@@ -137,7 +137,7 @@ var GL_classNames = [
 	["entry_baselang"],
 	["entry_french", "fr"],
 	["entry", "", true],
-	["quotes", "de", true],
+	["quotes", "de", true]
 ];
 }}}
 
@@ -350,6 +350,26 @@ If you are upgrading from a version of the script older than 0.2.4 to this or a 
 
  * All HTML elements inserted by the script are now prepended with {{{mlt_}}} to reduce the likelihood of conflicts - see  [#Are_There_Any_Element_IDs_or_Class_Names_I_Should_Avoid_Using_on section above] for details. This includes the element {{{<div id="languagelist"></div>}}} which you will have previously manually inserted somewhere on each of your pages. Therefore, for the script to continue working, you MUST adjust this code wherever it appears on your site to read as follows: {{{<div id="mlt_languagelist"></div>}}}.
  * The variable {{{GL_curLang}}} has now been moved from the global variables into the configurable section of the script, allowing the webmaster to specify an initial site language for new users (see [#Step_2(d): Step 2(d)] for details). When upgrading, you may wish to move this manually yourself and make any desired configurations. The script will still work if you do not do this; however it will behave slightly differently from older versions - a message will now appear at the top asking the user if they wish to translate the site into their current language. To restore the behaviour of older versions, use {{{GL_curLang = "orig"}}}.
+
+===Alterations for Script Version 0.2.5===
+
+Version 0.2.5 of the script fixes a bug that could cause script errors and crashes on certain sites. Please note that as part of this fix, the configurable variables {{{GL_classIds}}} and {{{GL_classNames}}} can no longer contain commas after the last specified regions. If you are upgrading from an older version by following the instructions above, you may therefore need to remove these manually... E.g. When using the script with the example file, the variables should now read:
+
+{{{
+var GL_classIds = [
+	["navigation"],
+	["left_sidebar", ""],
+	["right_sidebar", "fr", true],
+	["footer"]
+];
+
+var GL_classNames = [
+	["entry_baselang"],
+	["entry_french", "fr"],
+	["entry", "", true],
+	["quotes", "de", true]
+];
+}}}
 
 ==Why Was This Project Started?==
 
