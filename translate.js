@@ -24,7 +24,7 @@ var GL_baseLang = "en";
 *  each element separately; any elements that cannot be found on a page will be ignored:   */
 
 var GL_classIds = [
-	["navigation", ""],
+	["navigation"],
 	["left_sidebar", ""],
 	["right_sidebar", "fr", true],
 	["footer"]
