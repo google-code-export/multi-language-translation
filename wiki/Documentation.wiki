@@ -308,6 +308,22 @@ By contrast, a server-side script could potentially store online 'caches' of tra
 
 The script has been tested reasonably thoroughly, and should be safe to use in most cases. Naturally though, scripts are rarely perfect; so if you do spot a problem or are struggling to get it to work on your site, please do [#How_Can_I_Contribute_Towards_This_Project? get in touch with us]; and we will try to help you ASAP. We are particularly interested in cases where the script suddenly stops working (or does not work in the first place), or where the browser displays a script error - such events may imply a deeper problem to resolve, so please [#How_Can_I_Contribute_Towards_This_Project? let us know] about them in the unlikely event they occur!
 
+==The Script Seems to 'Hang' Part-Way Through Translation - How Can I Solve This?==
+
+Very occasionally, it is possible that translation may appear to 'hang' or 'freeze' part-way through - in such cases the _Translating..._ status message at the top remains on screen, and will usually eventually be replaced by a _Translating (Slowly!)... <u>Retry</u>_ mesage. In the unlikely event that this happens on your site, here are some instructions to try to solve this:
+
+ # Firstly try refreshing the page in your browser - often such issues are just caused by a temporary problem.
+ # Check to see if there are any script errors: For example, if you use _Internet Explorer_, ensure that errors will be displayed by default (go to _Tools > Internet Options > Advanced_, and make sure the _Disable Script Debugging_ option is not ticked, and the _Display a notification about every script error_ option is ticked). If you use _Mozilla Firefox_, you can use a debugging tool such as [http://getfirebug.com/ Firebug]. If any script errors are shown, please report the problem to us, following the instructions in the [#Report_Any_Problems: Report Any Problems] section...
+ # The script works by breaking content down into very small 'chunks' of text, and submitting each separately to _Google_. By default, each chunk contains up to 1000 characters, which works fine in the vast majority of cases. Very occasionally though, this number is a little too high, owing to limitations associated with current browsers and servers. This may be the case for example on a webpage containing a lot of line breaks. If the steps above do not solve the problem therefore, please search through the script until you have found the top of the function {{{createChunks(srcContent)}}}, and alter the code below:
+
+{{{
+var chars = 1000;
+}}}
+
+... where {{{chars}}} contains the maximum number of characters to include per chunk. Try reducing the value of {{{chars}}} - for example, to 990 characters. If that does not work, try reducing it a bit further.  *Note: It is however important not to reduce the value by too much, as this could potentially cause other problems*.
+
+If none of the steps above solve your problem, please report it to us, following the instructions in the [#Report_Any_Problems: Report Any Problems] section...
+
 ==Are There Any Element IDs or Class Names I Should Avoid Using on My Site?==
 
 This script uses a number of hard-coded HTML element IDs and class names to identify interface components added by it. In the very unlikely event that a page already contains HTML tags which use these names, this could cause conflicts with the script, and cause things to appear in unexpected locations on page. In a nutshell, as of script version 0.2.4., all element IDs and class names are prepended with {{{mlt_}}} (and this convention will continue to be followed if any elements should be added in future versions) - so if possible, try to avoid using element IDs / class names that start with those 4 letters on your site.
