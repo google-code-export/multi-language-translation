@@ -310,7 +310,7 @@ The script has been tested reasonably thoroughly, and should be safe to use in m
 
 ==The Script Seems to 'Hang' Part-Way Through Translation - How Can I Solve This?==
 
-Very occasionally, it is possible that translation may appear to 'hang' or 'freeze' part-way through - in such cases the _Translating..._ status message at the top remains on screen, and will usually eventually be replaced by a _Translating (Slowly!)... <u>Retry</u>_ mesage. In the unlikely event that this happens on your site, here are some instructions to try to solve this:
+Very occasionally, it is possible that translation may appear to 'hang' or 'freeze' part-way through - in such cases the '_Translating..._' status message at the top remains on screen, and will usually eventually be replaced by a '_Translating (Slowly!)... <u>Retry</u>_' mesage. In the unlikely event that this happens on your site, here are some instructions to try to solve this:
 
  # Firstly try refreshing the page in your browser - often such issues are just caused by a temporary problem.
  # Check to see if there are any script errors: For example, if you use _Internet Explorer_, ensure that errors will be displayed by default (go to _Tools > Internet Options > Advanced_, and make sure the _Disable Script Debugging_ option is not ticked, and the _Display a notification about every script error_ option is ticked). If you use _Mozilla Firefox_, you can use a debugging tool such as [http://getfirebug.com/ Firebug]. If any script errors are shown, please report the problem to us, following the instructions in the [#Report_Any_Problems: Report Any Problems] section...
